@@ -1,0 +1,167 @@
+ios真机+Gui Appium,无需事先在手机中安装app.
+效果:每个Test都会重新卸载安装app.
+1.
+runsingle.xml:
+1.1:
+指定ios app路径:注意了真机上是.ipa文件!!!!!!
+name="iosAppPath" 
+value="res/app/ios/NewPockeCars.ipa"
+
+1.2:
+指定设备的uuid:
+name="udid" 
+value="7e7b54c632bcaa44f661726271aeb3dcf0ace1e7" 
+
+1.3:
+指定了fullReset:
+name="fullReset" 
+value="true"
+(写成value=""的话就不会每次Test都重置app了)
+(这里是字符串的在代码中会转换成Boolean类型)
+
+1.4:
+指定了newCommandTimeout,指定这个(程序中也要设置pause)就可以长时间没有响应也不会退出app,单位为秒.
+name="newCommandTimeout" 
+value="3600"
+
+3.Gui Appium中:
+App Path,Full Reset,No Reset都为空;
+BundleID,Force Device,UDID,Show Simulator Log,Force Language,Force Locale,Use Native Instruments Library,Instruments Launch Timeout(900000)都勾选上;
+
+
+
+
+
+
+ios模拟器+1.5.3的命令行
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~以下待验证~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在singele中命令行启动+指定udid然后和上个与打包的那个.app,就可以运行在真机上了
+在singele中不指定udid然后+上个与打包的那个.app,就可以运行在模拟器上了
+
+
+命令行启动模拟器:
+appium --address "127.0.0.1" --session-override --pre-launch --debug-log-spacing --platform-version "9.3" --platform-name "iOS" --show-ios-log --device-name "iPhone 6" --language "zh-Hans" --launch-timeout "900000" --locale "zh_CN" --native-instruments-lib --native-i
+
+
+
+appium ios 真机：
+
+命令Appium：
+首先xcode中run到真机上
+bash：
+appium -U 7e7b54c632bcaa44f661726271aeb3dcf0ace1e7 --app com.koudaiqiche.PocketCars
+
+然后java中不用指定udid 和bundle id就好了
+然后就可以打开gui版本的appium使用inspector了
+（想着能否在java中最开始的时候执行bash命令，这样就不用手动打开bash了）
+
+Gui Appium：
+GUI中不指定app path，不指定full reset；指定bundle id、udid
+java代码中不指定udid和app（这里是当做udid来用，也就是包名）
+
+
+1;
+    未设置JAVA代码在模拟器中跑起来：
+	
+	直接gui版本appium点击运行
+	然后再点击insepetor就开始安装打开app了
+	但是过了一段时间就会自动关闭，怀疑是gui版本中设置了响应时间吧
+
+	相关设置：
+	ios项目：    用户版：只有一个
+				商家版：个推更新66
+	商家版口袋后台配置：
+				店铺ios当前版本：2.0.0 强制更新：勾选
+	用户版配置后台：
+				不用配置（因为刚好版本合适）
+
+	ios setting：
+				app path：指向了xcode项目中的product目录下的app
+				bundle id：未勾选
+				forve device：iphone 6
+				platoform version:9.3
+				udid：未勾选
+				full reset:勾选
+				show simulator log:勾选
+				show ios system log:勾选
+				No reset:未勾选
+				isolate simulator device:未勾选
+	advanced:
+				use native instruments library:勾选
+				instruments launch timeout:90000 ms
+
+	商家账号：
+				18605756766 123456
+7e7b54c632bcaa44f661726271aeb3dcf0ace1e7
+
+2.即使在gui的ios setting中的app path指定了app A，但是如果在代码中是指定另外一个app B，那么启动的还是B！
+
+3.延时操作/长时间界面(模拟器)不关闭的方法：
+
+a.这个是GUI版本里面的时间设置为30s，程序中设置为10分钟：
+实际上还是一分钟不到就关闭模拟器了。
+b.去掉gui版本的时间设置，程序中设置等待10分钟：
+实际上还是一分钟不到就关闭模拟器了。
+c.程序中newCommandTimeout设置为1800s
+实际效果果然是长时间不关闭
+
+4.延时操作时候可以使用insepector超级给力
+
+5.模拟器+JAVA：
+GUI不要勾选UDID和bundle id
+java中也不要设置UDID和bundle id
+java中指定的.app的地址不应该指向xcode目录下的那个？（待验证啊）
+GUi appium中的IOS SETTING 设置no reset 为勾选状态，就可以不用每次都重新安装应用了（进引导页）
+GUI appium 的 setting中不用指定app path了，因为java代码中可以自己指定，gui appium中还设置的话当我想换个应用测试的时候容易忘记更改那就出错了！！！
+
+在datadriverforios项目中：
+模拟器中：
+Gui Appium不设置App Path,BundleID,UDID;
+Gui Appium设置了Force Device,,Fore Locale
+Java设置了
+<parameter name="iosAppPath" value="/res/app/ios/NewPockeCars.app" />
+<parameter name="udid" value="" />
+capabilities.setCapability("autoAcceptAlerts", false);
+ <test name="两条用例" preserve-order="true">
+		<classes>
+			<class name="com.young.datadriverforios.testcases.test.TestPage_001_heheda_Test" />
+			<class name="com.young.datadriverforios.testcases.test.TestPage_002_xixida_Test" />
+		</classes>
+	</test> 
+效果：
+如果在GUI appium中还设置了Full Reset：
+每条用例之前都会重启模拟器，都会卸载掉app，每次都是要走引导页。
+用例执行完不会关闭模拟器。
+如果在GUI appium中还设置了No Reset：
+如果之前模拟器安装了app，那么不会卸载。用例之间也不会重启模拟器和重新卸载安装app，不用走引导页。
+用例执行完不会关闭模拟器。
+
+真机中：
+
+
+zh-Hans和zh-CHS相同相对应，是单纯的简体中文。
+zh-Hant和zh-CHT相同相对应，是单纯的繁体中文。
+
+
+
+6.设置模拟器的语言：Force Language:zh-hans（简体中文）
+
+7.ios capabilities:
+caps.setCapability("bundleId"," io.appium.TestApp");
+caps.setCapability("launchTimeout","30000");(延缓关闭，相当好用)
+caps.setCapability("locationServicesEnabled","false");（定位服务，只用于模拟器上）
+caps.setCapability("locationServicesAuthorized","true");（定位服务弹窗不会弹出来）
+caps.setCapability("autoAcceptAlerts","true");（自动接受alert弹窗）
+
+Bundle ID：com.koudaiqiche.PocketCars（用户版）
+
+

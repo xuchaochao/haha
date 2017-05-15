@@ -1,0 +1,3 @@
+Log4j
+动态配置，Log4j提供了PropertyConfigurator.configure(……)来动态配置.
+参数可以是一个properties文件所在路径的String对象;可以是一个properties文件所在路径的URL对象;也可以是一个properties对象----appium中用的就是这种。

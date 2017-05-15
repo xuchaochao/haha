@@ -1,0 +1,50 @@
+vmware里安装centos,用的是x86_64的包,这个包大小为7GB,在家里的windows电脑里已经有了.
+vmware中安装好centos之后,需要改成桥接模式,这个有相应的书签,要实时能否win--centos,centos--mac,centos--www.baidu.com之间能否ping通.
+设置成桥接模式后 执行dhclient 就可以自动获取ip地址命令
+然后ifconfig 查询系统里网卡信息，ip地址、MAC地址
+ssh登录,需要改相应的安全限制文件啥的.
+安装docker之后需要修改镜像源(镜像源编辑的文件的地址有两个不一定能找到需要看书签记录),用的是daocloud的加速器,这个加速服务职能使用一个月(从17年5.13开始)
+centos中安装tomcat用源码包的形式安装,安装之后需要开放8080,另外tomcat需要jdk,所以首先得卸载掉centos预装的openjdk,然后用源码的形式安装jdk,jdk安装在usr目录下的java文件夹中.
+centos中安装数据库的时候用http://blog.csdn.net/uq_jin/article/details/51741175,但是里面有个坑就是不用cp share里的my.cnf,而是直接在原来/etc/my.cnf文件中加上utf-8就好了(需要设置[client]).
+
+
+mac和centos之间的文件传输用http://www.sdifenzhou.com/securecrt802.html, 命令传输比较费劲.
+
+
+
+docker run -h "oracle" --name "oracle" -d -p 49163:22 -p 49164:1521 wnameless/oracle-xe-11g
+docker run -h "oracle" --name "oracle" -d -p 49163:22 -p 49164:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
+
+7d2a5c9932ea562820e8c12449e2fc5a2fd1c7c7d64f7a3cc0cbadf54a0bc41e
+
+cp -rf /usr/share/doc/mysql-community-server-5.6.36/my-default.cnf /etc/my.cnf
+
+查看端口被占用:lsof -i:49164
+杀掉相应的进程:kill -9 pid号
+
+然后远程登录到oracle用
+ssh root@192.168.1.102 -p 49163(初始密码为password: admin)
+
+centos中安装oracle,图形化界面的时候跳出来的:
+oracle base:/home/xcc/app/xcc
+software location:/home/xcc/app/xcc/product/11.2.0/dbhome_1
+database file location:/home/xcc/app/xcc/oradata
+global databse name :orcl
+密码:8800
+
+centos中安装jdk:
+jdk下载地址.
+http://113.215.21.29/1Q2W3E4R5T6Y7U8I9O0P1Z2X3C4V5B/download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.tar.gz
+rpm -qa | grep jdk
+java-1.7.0-openjdk-1.7.0.141-2.6.10.1.el7_3.x86_64
+copy-jdk-configs-1.2-1.el7.noarch
+java-1.7.0-openjdk-headless-1.7.0.141-2.6.10.1.el7_3.x86_64
+java-1.8.0-openjdk-headless-1.8.0.131-2.b11.el7_3.x86_64
+java-1.8.0-openjdk-1.8.0.131-2.b11.el7_3.x86_64
+jdk1.8.0_131
+#set java environment
+JAVA_HOME=/usr/java/jdk1.8.0_131
+JRE_HOME=/usr/java/jdk1.8.0_131/jre
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH

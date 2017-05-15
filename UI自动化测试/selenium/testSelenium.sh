@@ -1,0 +1,1 @@
+python3 /Users/xcc/Documents/Dev/code/pythonCode/test.py

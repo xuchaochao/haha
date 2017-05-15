@@ -1,0 +1,584 @@
+命令行启动android appium:
+appium --address "127.0.0.1" --session-override --pre-launch --debug-log-spacing --automation-name "Appium" --platform-name "Android" --platform-version "5.1" --no-reset --dont-stop-app-on-reset --native-i
+
+
+
+
+
+安装ideviceinstaller:
+Step 1. brew install libimobiledevice
+Step 2. brew install -HEAD ideviceinstaller
+
+或者?
+brew install --HEAD libimobiledevice
+brew install --HEAD ideviceinstaller
+
+
+依赖:
+libimobiledevice:
+libtasn1, libxml2, libplist, libusb, usbmuxd, openssl
+
+
+ideviceinstaller: 
+libxml2, libplist, libusb, usbmuxd, openssl, libimobiledevice, libzip
+
+
+
+
+
+
+
+
+
+
+安装:
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+cnpm install -g appium
+(这样里面的chrome之类的部分就能通过淘宝那边的缓存下载了)
+cnpm install -g appium-doctor
+
+这个时候的.bash_profile文件是这样的:
+
+ANDROID_HOME=/Users/xcc/Documents/Dev/android-sdk-macosx
+JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_77.jdk/Contents/Home
+MAVEN_HOME=/Users/xcc/Documents/Dev/apache-maven
+NODE_HOME=/usr/local
+GRADLE_HOME=/Users/xcc/Documents/Dev/gradle-3.0/
+PATH=$ANDROID_HOME/tools:$PATH
+PATH=$ANDROID_HOME/platform-tools:$PATH
+PATH=$MAVEN_HOME/bin:$PATH
+PATH=$NODE_HOME/bin:$PATH
+PATH=$JAVA_HOME/bin:$PATH
+PATH=/opt/local/sbin:$PATH
+PATH=$GRADLE_HOME/bin:$PATH
+
+export GRADLE_HOME
+export NODE_HOME
+export JAVA_HOME
+export ANDROID_HOME
+export MAVEN_HOME
+export PATH
+
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+
+##
+# Your previous /Users/xcc/.bash_profile file was backed up as /Users/xcc/.bash_profile.macports-saved_2016-08-31_at_19:10:57
+##
+
+# MacPorts Installer addition on 2016-08-31_at_19:10:57: adding an appropriate PATH variable for use with MacPorts.
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+# Finished adapting your PATH environment variable for use with MacPorts.
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/xcc/.sdkman"
+[[ -s "/Users/xcc/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/xcc/.sdkman/bin/sdkman-init.sh"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export http_proxy=http://hunter.testerhome.com:8787 https_proxy=http://hunter.testerhome.com:8787
+xccdeMacBook-Pro:~ xcc$ npm install appium@1.6.0-beta1 -g
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANDROID:恢复默认的输入法
+capabilities.setCapability("unicodeKeyboard", true);
+capabilities.setCapability("resetKeyboard", true);
+
+
+1.命令行安装appium：
+通过npm安装appium，打开终端输入：npm install –g appium或者npm --registry http://registry.cnpmjs.org install -g appium(推荐这种,npm的国内镜像)
+额 我都忘了appium是怎么安装成功的了。。。
+好像是安装的时候去掉还是加上一个参数（-u）还是啥来着的 然后就可以了（全局啊）（作者的书在25章说了这个，但是应该有误）
+
+口袋汽车中两个Context：
+NATIVE_APP
+WEBVIEW_com.koudaiqiche.koudaiqiche
+
+
+monkey测试（来自testerhome）：
+monkey ios测试：
+查看当前mac连接的设备（ios设备）：
+instruments -s devices
+smart_monkey -a com.koudaiqiche.PocketCars -w 7e7b54c632bcaa44f661726271aeb3dcf0ace1e7
+monkey android测试：
+run cts --p com.koudaiqiche.koudaiqiche --a com.koudaiqiche.koudaiqiche.activity.AdvertisementActivity --wifiSsdk mac --wifiPsk 123456789 --plan  Monkey
+
+
+UiSelector定位：
+基本用法：
+ByAndroidUIAutomator.AndroidUIAutomator("new UiSelector().textContains(\"小保养\")");
+new UiSelector().resourceId(\"com.example.android.contactmanager:id/addContactButton\")
+同级、父子用法：
+在布局中用UiSelector得fromParent和childSelector来定位：
+//		同级定位：通过按钮1定位到按钮2
+		WebElement heheElement=driver.findElementByAndroidUIAutomator("new UiSelector().text(\"按钮1\").fromParent(new UiSelector().text(\"按钮2\"))");
+		heheElement.click();
+		System.out.println("------------>"+heheElement.getText());
+//	父子定位：通过com.xcc.testApp:id/heheda获得它的下一级的按钮3
+		WebElement xixida=driver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"com.xcc.testApp:id/heheda\").childSelector(new UiSelector().text(\"按钮3\"))");
+		xixida.click();
+		System.out.println("------------>"+xixida.getText());
+	//index定位，从0开始，得到了按钮1
+		WebElement indexhehe=driver.findElementByAndroidUIAutomator("new UiSelector().className(\"android.widget.Button\").index(0)");
+		indexhehe.click();
+		System.out.println("------------>"+indexhehe.getText());
+
+
+appium常用方法封装：
+//本类日志对象
+			public static Logger logger = Logger.getLogger(xxxxxx.class);
+
+
+常用helper方法：
+/** 等待首页元素显示出来 */
+	public static void waitUI(AppiumUtil appiumUtil, int elementTimeOut) {
+		appiumUtil.waitForElementToLoad(elementTimeOut,
+				xxxxx);
+	}
+
+	/** 验证xxxxxxx */
+	public static void confirmXXX(AppiumUtil appiumUtil, String expected) {
+		boolean a = appiumUtil
+				.doesElementsExist(by对象);
+		if (a) {
+			String xxx = appiumUtil
+					.getText(by对象);
+			appiumUtil.isTextCorrect(xxx, expected);
+		} else {
+			logger.info("没有找到xxxxxxx");
+		}
+	}
+
+/** 点击操作 */
+	public static  void clickPage(AppiumUtil appiumUtil,By byElement){
+		appiumUtil.click(byElement);		
+	}
+
+   /**向输入框输入内容*/
+	public static void typeInfo(AppiumUtil appiumUtil,By byElement,String info){
+		appiumUtil.typeContent(byElement, info);
+	}	
+	
+	/**清空输入框内容*/
+	public static void clearContent(AppiumUtil appiumUtil,By byElement){
+		appiumUtil.clear(byElement);
+	}
+
+/**进入指定的webview内容中*/
+	public static void enterWebview(AppiumUtil appiumUtil,String webview){
+		appiumUtil.switchWebview(webview);
+	}
+
+
+	/** 等待一组的需要滚动查找的元素显示出来 */
+	public static void waitThreeUi(AppiumUtil appiumUtil) {
+		logger.info("开始找鼓励一下，推荐有奖，年卡记录");
+		appiumUtil.swipeAndSearch(5, MyPage.MY_BUTTON_SHARE);
+		
+		appiumUtil.swipeAndSearch(5, MyPage.MY_BUTTON_REWAERD);
+		logger.info("要开始查找那个年卡记录了");
+		appiumUtil.swipeAndSearch(5, MyPage.MY_BUTTON_YEARCARD);
+		logger.info("鼓励一下，推荐有奖，年卡记录都找到了");
+	}
+
+adb命令：
+修改输入法：
+列出：
+adb
+修改：
+adb shell ime set com.google.android.inputmethod.pinyin/.PinyinIME
+不同设备指定安装：
+adb -s LFAETOEAWCZTAUJJ install /Users/xcc/Downloads/Koudaiqiche-debug3.apk
+
+
+坐标转换定位元素：
+scrollTo或者自己封装的那个滚动查找方法找到目标的附近元素，然后就可以用坐标转换找到了想要的元素
+
+ToastCatch
+
+	工具:
+	mac上用inspector和uiautomatorviewer,windows上只能用后者.
+	通过ID(resrouce-id):	
+	通过NAME(text)定位元素(1.5以上版本就不支持了):
+	通过ClassName(class)定位元素:
+	通过Xpath定位(执行比较慢):
+	通过AccessibilityId(Content-describe)
+	通过AndroidUIAutomator(用uiautomator中的uiselector):	
+	用uiautomator中的resourceId:
+					WebElement el =driver.findElementByAndroidUIAutomator
+					("new UiSelector().resourceId(\"com.example.android.contactmanager:id/addContactButton\")");
+	用uiautomator中的description:
+					WebElement el =driver.findElementByAndroidUIAutomator
+					("new UiSelector().description(\"Add Contact\")");
+	用uiautomator中的className:			
+	用uiautomator中的text:
+					   			
+	纯网页定位:其实就是selenium!!!
+	chrome-devtools:chrome://inspect/#devices(这个不能看到Xpath,还是得火狐的FIREBUG+user-agent switcher)
+	WebElement searchButton = driver.findElement(By.id(“index-bn”))；
+	
+	混合应用(需要在WebView类中调用静态方法setWebContentsDebuggingEnabled)
+	Set<String> contexts= driver.getContextHandles();		
+	driver.context((String) contexts.toArray()[1]);	
+
+Android操作:
+	点击操作:button.click();
+	清除操作:username.clear();
+
+	获得元素属性的值(网页):
+	<input type="text" value="" autocomplete="off" placeholder="用户名" id="u" class="form-control" onblur="checkFailNum()" name="username">
+	username. getAttribute(“placeholder”);
+	获得元素属性的值(native):
+	el.getAttribute("text");
+	el.getAttribute("resource-id");
+	el.getAttribute("class");
+	el.getAttribute("content-desc");
+	
+	获取元素文本:
+	<button class="btn btn-major" id="loginBtn" type="button">登录</button>
+	原生和网页一样用:login.getText();
+	
+	元素是否显示:
+	login.isDisplayed();
+	
+	元素是否被选择:
+	checkbox.isSeelected();
+	
+	元素是否被启用:
+	login. isEnabled ();
+	
+	提交操作(用于webview中type为submit):
+	???据说原生也可以???
+	<button class="btn btn-major" id="loginBtn" type="submit">登录</button>
+	login. submit();
+	
+	iFrame处理(webview):
+	driver.switchTo().frame(“city_set_ifr”);
+	dr.switchTo().defaultContent();
+	
+	下拉框选值:
+	native用click();
+	webview用select
+	Select province = new Select(element_province);
+	province.selectByIndex(0) 
+	province.selectByValue(“18”) 
+	province .selectByVisibleText(“北京”)
+	
+	Alert处理:
+	native用click();
+	webview:
+	alert.accept();　　//确定
+	alert.dismiss();　 //取消
+	alert.getText();　//获取文本
+	
+	滚动:
+	driver.scrollToExact("E");//滑动直到查找到E
+	和滑动
+	TouchAction tAction=newTouchAction(driver);
+	tAction.press(400,500).waitAction(800).moveTo(50,500).release().perform();
+	//waitAction(800)等待动作的缓冲时间
+	//release()松开手
+	//perform()提交
+	
+
+	等待:
+	硬性等待:
+	Thread.sleep(int sl);
+	智能等待,超时自动报错:
+	public void waitForElementToLoad(iOut, final By By) {
+		try {
+			(new WebDriverWait(driver,Out))
+					.until(new ExpectedCondition<Boolean>() {
+						public Boolean apply(WebDriver driver) {
+							WebElement element = driver.findElement(By);
+							return element.isDisplayed();
+						}
+					});
+		} catchoutException e) {
+			Assert.fail("超时!! " +Out + " 秒之后还没找到元素 [" + By + "]", e);
+		}
+	}
+	设置等待页面/元素加载完毕:
+	driver.manageouts().implicitlyWait(Unit.SECONDS);
+	//识别元素时的超时时间
+	driver.manageouts().pageLout(Unit.SECONDS);　　
+	//页面加载时的超时时间
+	
+	Spinner下拉菜单选择:
+	click()+scrollToExact("India")
+	!!!注意!!!滑动找到元素后还要继续定位!!!
+	
+	SeekBar拖动条操作:
+	//获取拖动条的开始拖动点的x坐标
+	int xAxisStartPoint = slider.getLocation().getX();
+	//获取拖动条的结束点的x坐标  = 开始x坐标+滑动条元素的宽度
+	int xAxisEndPoint = xAxisStartPoint + slider.getSize().getWidth();
+	//滚动条的y坐标
+	int yAxis = slider.getLocation().getY();
+	TouchAction act=new TouchAction(driver);	act.press(xAxisStartPoint,yAxis).waitAction(800).moveTo(xAxisEndPoint-1,yAxis).release().perform();
+
+
+	截图:
+	  File screenShot=driver.getScreenshotAs(OutputType.FILE);
+	  File location=new File("xcc");
+	  if(!location.exists()){
+		  location.mkdir();
+	  }//如果名为screenshots的文件夹不存在的话那么就创建这个文件夹
+	  
+	  String screenShotName=location.getAbsolutePath()+File.separator+"xixi.png";
+
+	  //File.separator的意思是分隔符
+	  FileUtils.copyFile(screenShot,new File(screenShotName));
+	  
+	失败时候截图:
+	监听类继承TestListenerAdapter;
+	在测试用例所在类的开头加上@Listeners({ScreenshotListener.class})
+
+技巧:
+
+	多个相同元素分别操作:
+	List<WebElement> webelement =driver.findElementsByXXX("xxxx");
+	webelement.get(0).sendKeys()/click();
+	webelement.get(1).sendKeys()/click();
+
+
+
+TestNG:
+	参考:http://www.importnew.com/14508.html	测试套件（suite）,name表示测试套件的名字。parallel可以是classes,tests,methods和false(表示不并行)等。
+	通过testng配置文件运行会生成test-ouput测试报告!	
+	testng各种注解:
+	http://blog.163.com/bobile45@126/blog/static/96061992201442392959918/
+	@BeforeTest和@AfterTest测试开始前
+	@BeforeClass和@AfterClass测试类开始前
+	@BeforeMethod和@AfterMethod测试方法开始前
+	参数化:
+	@Parameters({ "keyword" })需要在testng.xml中指定;用@DataProvider(name = "XXXX")可以不用再testng.xml中指定.
+	如果你测试代码中有需要用到参数，并且参数在xml文件中声明,那么运行的时候一定通过xml文件来执行测试。不然参数会找不到，
+	@Test(invocationCount = 3,dataProvider="testData")表示这个测试方法要重复执行三次
+	
+Capabilities:
+	通用:
+	android特有:
+
+Java-client:
+https://github.com/appium/java-client
+python-client:
+https://github.com/appium/python-client
+
+锁定
+锁定屏幕
+# python
+driver.lock(5)
+// java
+driver.lockScreen(3);
+
+将 app 置于后台
+把当前应用放到后台去
+# python
+driver.background_app(5)
+// java
+driver.runAppInBackground(5);
+
+收起键盘
+# python
+driver.hide_keyboard()
+// java
+driver.hideKeyboard();
+
+启动 Activity
+在当前应用中打开一个 activity 或者启动一个新应用并打开一个 activity 。 只能在 Android 上使用
+// java
+driver.startActivity("appPackage","com.example.android.apis", null, null);
+# python
+driver.start_activity('com.example.android.apis', '.Foo')
+
+打开通知栏 (Notifications)
+打开下拉通知栏 只能在 Android 上使用
+// java
+driver.openNotifications();
+# python
+driver.open_notifications()
+
+是否已经安装
+检查应用是否已经安装
+# python
+driver.is_app_installed('com.example.android.apis')
+// java
+driver.isAppInstalled("com.example.android.apis")
+
+安装应用
+安装应用到设备中去
+# python
+driver.install_app('path/to/my.apk')
+// java
+driver.installApp("path/to/my.apk")
+
+删除应用
+从设备中删除一个应用
+# python
+driver.remove_app('com.example.android.apis')
+// java
+driver.removeApp("com.example.android.apis")
+
+摇晃 (Shake)
+模拟设备摇晃
+# python
+driver.shake()
+// java
+driver.shake()
+
+关闭应用
+# python
+driver.close_app();
+// java
+driver.closeApp()
+
+启动 (Launch)
+根据服务关键字 (desired capabilities) 启动会话 (session) 。请注意这必须在设定 autoLaunch=false 关键字时才能生效。这不是用于启动指定的 app/activities ————你可以使用 start_activity 做到这个效果————这是用来继续进行使用了 autoLaunch=false 关键字时的初始化 (Launch) 流程的。
+# python
+driver.launch_app()
+// java
+driver.launchApp()
+
+重置 (Reset)
+应用重置
+(翻译者注：相当于卸载重装应用)
+# python
+driver.reset()
+// java
+driver.resetApp()
+
+可用上下文 (context)
+列出所有的可用上下文
+翻译备注：context可以理解为 可进入的窗口 。例如，对于原生应用，可用的context和默认context均为NATIVE_APP。详情可查看对混合应用进行自动化测试
+# python
+driver.contexts
+// java
+driver.getContextHandles()
+
+当前上下文 (context)
+列出当前上下文
+# python
+driver.current_context
+
+// java
+driver.getContext()
+
+切换到默认的上下文 (context)
+将上下文切换到默认上下文
+# python
+driver.switch_to.context(None)
+// java
+driver.context();
+
+应用的字符串 (App Strings)
+获取应用的字符串
+# python
+driver.app_strings
+// java
+driver.getAppStrings();
+
+按键事件 (Key Event)
+给设备发送一个按键事件
+# python
+driver.keyevent(176)
+// java
+driver.sendKeyEvent(AndroidKeyCode.HOME);
+
+当前 Activity
+获取当前 activity。只能在 Android 上使用
+# python
+driver.current_activity
+// java
+driver.currentActivity();
+
+触摸动作(TouchAction) / 多点触摸动作(MultiTouchAction)
+生成触摸动作的接口。这部分文档很快将会补充更多的内容进来。
+# python
+action = TouchAction(driver)
+action.press(element=el, x=10, y=10).release().perform()
+// java
+TouchAction action = new TouchAction(driver)
+.press(mapview, 10, 10)
+.release().
+perform();
+
+滑动(Swipe)
+模拟用户滑动
+# python
+driver.swipe(start=75, starty=500, endx=75, endy=0, duration=800)
+// java
+driver.swipe(75, 500, 75, 0, 0.8)
+
+捏 (Pinch)
+捏屏幕 (双指往内移动来缩小屏幕)
+# python
+driver.pinch(element=el)
+// java
+driver.pinch(element);
+
+放大 (Zoom)
+放大屏幕 (双指往外移动来放大屏幕)
+# python
+driver.zoom(element=el)
+// java
+driver.zoom(element);
+
+滑动到 (Scroll To)
+滑动到某个元素。
+# python
+todo: python
+// java
+WebElement element = driver.findElement(By.name("Element Name"));
+HashMap<String, String> arguments = new HashMap<String, String>();
+arguments.put("element", element.getId());
+(JavascriptExecutor)driver.executeScript("mobile: scrollTo", arguments);
+
+拉出文件 (Pull File)
+从设备中拉出文件
+# python
+driver.pull_file('Library/AddressBook/AddressBook.sqlitedb')
+// java
+driver.pullFile("Library/AddressBook/AddressBook.sqlitedb");
+
+推送文件(Push file)
+推送文件到设备中去
+# python
+data = "some data for the file"
+path = "/data/local/tmp/file.txt"
+driver.push_file(path, data.encode('base64'))
+// java
+byte[] data = Base64.encodeBase64("some data for the file".getBytes());
+String path = "/data/local/tmp/file.txt";
+driver.pushFile(path, data)

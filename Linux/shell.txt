@@ -1,0 +1,144 @@
+
+纯selenium:
+WebDriver
+ChromeDriver
+
+打开浏览器：
+			WebDriver driver = new FirefoxDriver(); 
+			WebDriverdriver = new ChromeDriver();
+最大化　　
+			driver.manage().window().maximize();
+关闭
+    　　	driver.close();
+    　　	driver.quit();
+打开页面
+    driver.get("http://www.google.com");
+    driver.navigate().to("http://www.baidu.com/"); 
+定位:
+	(参见---->>>>>http://www.cnblogs.com/qingchunjun/p/4208159.html<<<---参见)
+	findElement　　 定位某个元素
+    findElements    定位一组元素
+	
+	By.id:
+	driver.findElement(By.id("passwd-id"));
+	By.name:
+	driver.findElement(By.name("passwd"));
+    By.xpath:
+	driver.findElement(By.xpath("//input[@id='passwd-id']")
+	By.className:
+	driver.findElement(By.className("input_class"));
+	By.cssSelector:
+	driver.findElement(By.cssSelector(".input_class"));
+	By.linkText:
+	driver.findElement(By.linkText("百科"));
+	By.tagName:
+	driver.findElement(By.tagName("form")).getAttribute("name");
+	By.partialLinkText()
+
+	获得元素属性的值:
+	<input type="text" value="" autocomplete="off" placeholder="用户名" id="u" class="form-control" onblur="checkFailNum()" name="username">
+	username. getAttribute(“placeholder”);
+
+操作:
+	输入框:		
+			element.sendKeys(“test”);//在输入框中输入内容：
+			element.clear();　　　　   //将输入框清空
+			element.getText();　　   //获取输入框的文本内容： 
+	
+	下拉选择框:
+				Select select =new(Select(driver.findElement(By.id("select")));  
+						
+				selectByVisibleText(“A”);
+				select.selectByValue(“1”); 
+				select.deselectAll();
+				select.deselectByValue(“1”);
+				select.deselectByVisibleText(“A”);
+				select.getAllSelectedOptions();
+				select.getFirstSelectedOption(); 
+	
+	单选项:
+			WebElement radio=driver.findElement(By.id("BookMode"));
+			
+			radio.click();　　　　   //选择某个单选项
+			radio.clear();　　　　  //清空某个单选项
+			radio.isSelected();　　//判断某个单选项是否已经被选择
+	
+	多选项:
+			WebElement checkbox = driver.findElement(By.id("myCheckbox."));
+
+			checkbox.click();
+			checkbox.clear();
+			checkbox.isSelected();
+			checkbox.isEnabled();
+	
+	按钮:
+			btn.click();　　　　　 //点击按钮
+			btn.isEnabled ();　　//判断按钮是否enable
+	
+	对话框:
+			alert.accept();　　//确定
+			alert.dismiss();　 //取消
+			alert.getText();　//获取文本
+	
+	表单:
+		　　approve.click();
+		　　approve.submit();//只适合于表单的提交	
+	
+	上传文件
+		　　String filePath = "C:\test\\uploadfile\\media_ads\\test.jpg";
+		　　adFileUpload.sendKeys(filePath);
+	
+	Windows 和 Frames之间的切换:	
+			driver.switchTo().defaultContent();//返回到最顶层的frame/iframe
+			driver.switchTo().frame("leftFrame");//切换到某个frame：
+			driver.switchTo().window("windowName");//切换到某个window 
+
+	超时设置 
+			driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+			//识别元素时的超时时间
+			driver.manage().timeouts().pageLoadTimeout(10,TimeUnit.SECONDS);　　
+			//页面加载时的超时时间
+			driver.manage().timeouts().setScriptTimeout(10,TimeUnit.SECONDS);　　
+			//异步脚本的超时时间
+
+
+			driver.findElementByAndroidUIAutomator("new UiSelector().text(\"轮胎龟博士有推荐无折扣无数量\")");
+	
+By.name("账号绑定"));	
+
+
+By.name("
+
+driver.findElementByAndroidUIAutomator("new UiSelector().text(\"
+
+
+"));
+
+\")");
+	
+
+final By
+final WebElement
+
+By.id(
+driver.findElement(By.id(
+
+By.xpath(
+driver.findElement(By.xpath(
+
+);
+));
+
+
+验证码:
+【链接】selenium和Appium的简单验证码自动识别方法
+http://blog.csdn.net/crisschan/article/details/50407992
+这个是代码出初，记得 在py文件前面加入 import os
+作者应该忘记说了。要加 import os
+# 定位到验证码所在元素
+self = driver.find_element_by_xpath("//*[@id='randomcode_img']")
+# 调用identifyingCode函数
+randomcodeTxt = identifyingCode(self, driver, 509, 340, 639, 382)
+这是我调用这个函数，写的代码。供参考。
+
+	

@@ -1,0 +1,475 @@
+fir p ${WORKSPACE}/Koudaiqiche/build/outputs/apk/Koudaiqiche-debug.apk -T 4b4f7524453d51d11742cd0c1463073a
+
+
+解决jenkins中打开模拟器后就不继续下一步的情况:
+echo "打开模拟器" & emulator -avd 4.4 & echo "打开完毕"
+这样就表示一起运行了,echo "打开完毕"也就一起执行了.
+
+iOS真机自动化思路:
+jenkins中启动killall Appium和open -na Appium,然后启动clickAppium.sh脚本,就点开了Gui Appium上的Launch了.
+
+
+
+jenkins改端口启动
+jenkins --httpPort=9999
+打开jenkins：
+http://localhost:9999/
+或者
+http://192.168.1.101:9999/
+（前提是在Jenkins Url中指定了192.168.1.101:9999）
+关闭jenkins服务
+http://192.168.1.101:9999/exit
+重启jenkins：
+http://localhost:9999/restart
+
+/Users/xcc/Documents/Dev/code/multiTest/apptestforia/
+
+open -na 暴风影音
+open -na 暴风影音
+open -na 暴风影音
+open -na 暴风影音
+open -na 暴风影音
+open -na 暴风影音
+open -na 暴风影音
+
+
+
+
+原来：
+ANDROID_HOME=/Users/xcc/Documents/Dev/android-sdk-macosx
+现在：
+ANDROID_HOME=/Users/xcc/Documents/Dev/android-sdk-macosx
+/Users/xcc/Documents/Dev/AndrodiStudioSdk
+
+
+口袋汽车android 在jenkins中打包：
+首先在Global Tool Configuration设置：
+gradle2.14.1
+/Users/xcc/Documents/Dev/Android Studio.app/Contents/gradle/gradle-2.14.1
+任务中设置：
+git@git.coding.net:zuiniao123/lsp2.git
+zuiniao123（私钥）（第二个）
+构建中：
+Invoke Gradle:
+gradle version:gradle2.14.1
+tasks:clean build
+在android项目中：
+在每一个Module的build.gradle中：
+在android标签下加入：
+lintOptions {
+        abortOnError false
+    }
+
+project的build.gradle:
+dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0-beta3'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+project的setting.gradle中注释掉商家版。
+
+
+
+Gradle编译禁用Lint报错
+在build.gradle中加入如下代码：
+
+    android {
+      // your build config
+      defaultConfig { ... }
+      signingConfigs { ... }
+      compileOptions { ... }
+      buildTypes { ... }
+      // This is important, it will run lint checks but won't abort build
+      lintOptions {
+          abortOnError false
+      }
+    }
+
+offline work:
+/Users/xcc/.gradle/(该目录下wrap中有多个压缩包)
+
+use local gradle distribution:
+gradle home:/Users/xcc/Documents/Dev/gradle-3.0
+
+也许需要在appium java的配置文件中动态写入生成的.app的地址，这样才能读取。
+
+
+
+
+NewPockeCars
+
+Jenkins home(主目录):
+/Users/xcc/.jenkins
+工作空间根目录:
+${JENKINS_HOME}/workspace/${ITEM_FULLNAME}
+login.keychain：
+/Users/xcc/Library/Keychains/login.keychain
+
+
+删除彻底JENKINS的方法：
+除了brew uninstall jenkins
+还要进入/Users/xcc/.jenkins删除干净文件
+
+
+管理员密码存储：
+/Users/xcc/.jenkins/secrets/initialAdminPassword
+查看密码：
+sudo vi /Users/xcc/.jenkins/secrets/initialAdminPassword
+
+管理员密码值：
+a27c4e9f4c6d4ab580af07b017867dd3
+Create First Admin User
+用户名：xcc
+密码:8800
+全名：xcc
+邮件：932669040@qq.com
+
+Jenkins Location:
+Jenkins URL:
+http://192.168.1.101:9999/
+系统管理员邮件地址:
+18267990494@163.com
+
+xcode插件设置中：
+
+Keychain path：
+系统默认：
+${HOME}/Library/Keychains/login.keychain
+实际地址：
+/Users/xcc/Library/Keychains/login.keychain
+Keychain password：
+8800
+
+mac系统大于10.10的时候xcode插件中不能生成.ipa，虽然下面这个ipa的名字指定了但是也没用。
+koudaiqiche_${VERSION}_${BUILD_DATE}_${BUILD_NUMBER}_${JOB_NAME}
+
+if [ -d "${WORKSPACE}/builds" ]; then rm -rf ${WORKSPACE}/builds; fi; mkdir ${WORKSPACE}/builds; if [ -d "${WORKSPACE}/builds/${BUILD_NUMBER}" ]; then rm -rf ${WORKSPACE}/builds/${BUILD_NUMBER}; fi; mkdir ${WORKSPACE}/builds/${BUILD_NUMBER}; xcodebuild -project ${WORKSPACE}/NewPockeCars/NewPockeCars.xcodeproj -scheme "NewPockeCars" -sdk iphoneos archive -archivePath ${WORKSPACE}/builds/${BUILD_NUMBER}/archive CODE_SIGN_IDENTITY="iPhone Distribution: xxxxxxx" xcodebuild -exportArchive -exportFormat IPA -archivePath ${WORKSPACE}/builds/${BUILD_NUMBER}/archive.xcarchive -exportPath ${WORKSPACE}/builds/${BUILD_NUMBER}/${JOB_NAME}_${BUILD_NUMBER}.ipa -exportProvisioningProfile "XC Ad Hoc: com.koudaiqiche.PocketCars"
+
+
+工作空间设置：
+源码管理：
+Repository URL：git@git.coding.net:zuiniao123/NewPockeCars.git
+Credentials:zuiniao123（私钥）（用的是ssh的，注意要看清楚远程仓库用的是ssh还是http）
+构建：
+Xcode：(mac 10.10上的jenkins上的xcode插件不能生成.ipa)
+General build settings:
+Target:NewPockeCars
+Clean before build? Yes
+Configuration Debug
+
+Code signing & OS X keychain options：
+Code Signing Identity：iPhone Developer: Bin Jin (G84F977LXM)
+Unlock Keychain?Yes
+Keychain:none
+The globally configured keychain to unlock for this build:
+Keychain path:${HOME}/Library/Keychains/login.keychain
+Keychain password:8800
+
+Advanced Xcode build options:
+clean test report?YES
+Xcode Schema File:NewPockeCars
+Xcode Project File:NewPockeCars.xcodeproj
+Build output directory:${WORKSPACE}/build/Debug-iphoneos
+
+
+
+
+
+
+
+git信息设置：
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+
+git信息查询
+$ git config --global --get user.name
+zuiniao123
+$ git config --global --get user.email
+932669040@qq.com
+
+创建文件夹，显示当前路径
+$ mkdir MyRepository
+$ cd MyRepository（cd ..返回上一级）
+$ pwd
+/Users/xcc/Documents/Dev/MyRepository
+将该目录变成Git可以管理的仓库：
+$ git init
+Initialized empty Git repository in /Users/xcc/Documents/Dev/MyRepository/.git/
+
+$ ls 查看文件
+$ ls -ah 查看隐藏文件
+
+git status:查看文件状态
+Untracked files，一般是新创建的尚未add的
+Changes to be committed，已经add了，但是尚未提交到repo
+
+git add readme.txt
+也可以用git add .
+也可以git add file2.txt file3.txt
+
+
+git commit -m "wrote a readme file"
+-m后面输入的是本次提交的说明
+
+$ git diff
+查看difference
+
+$ git log或者（git log --pretty=oneline）
+显示从最近到最远的提交日志
+
+$ git reset --hard HEAD^
+会退到上一个版本
+$ git reset --hard HEAD^^
+回退两个版本
+$ git reset --hard HEAD~3
+回退3个版本
+
+
+git reset --hard c7488dae0d6（sha值没必要写全）
+回退到某个版本
+& git reflog
+Git提供了一个命令git reflog用来记录你的每一次命令
+（每次提交时候写好-m ""很重要啊）
+
+工作区（Working Directory）
+就是你在电脑里能看到的目录
+
+版本库（Repository）
+工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
+Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
+
+第一步是用git add把文件添加进去，
+实际上就是把文件修改添加到暂存区；
+第二步是用git commit提交更改，
+实际上就是把暂存区的所有内容提交到当前分支。
+
+git中文件的三种状态：
+untrack files是指尚未被git所管理的文件（例如新建一个文件）；changed but not updated是指文件被git管理，并且发生了改变，但改动还没被git管理（例如修改了一个commit的文件）；这两种状态，都可以看成是改动还没被git管理的状态，我们这里称非stage状态。
+
+changes to be commited是指进入stage（暂存区）状态的文件，stage是commit和未管理之间的一个状态，也有别名叫index状态，也就是git已经管理了这些改动，但是还没完成提交（例如git add 1.txt之后，但是没有commit）。
+
+.gitignore中的文件，不会出现在以上三个状态中(因为已经commit过了)。
+
+$ cat readme.txt
+显示出这个文本的内容
+
+
+$ git diff HEAD -- readme.txt
+查看工作区和版本库里面最新版本的区别
+
+$ git checkout -- readme.txt
+把readme.txt文件在工作区的修改全部撤销，两种情况：
+一种是readme.txt自修改后还没有被放到暂存区（index stage），现在，撤销修改就回到和版本库一模一样的状态；
+一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+
+add后但是没有commit，可以用git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区
+然后继续用$ git checkout -- readme.txt丢弃工作区的修改
+
+修改小结时间。
+场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file。
+
+场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD file，就回到了场景1，第二步按场景1操作。
+
+场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库。
+
+
+删除文件：
+先
+$ git add test.txt
+$ git commit -m "add test.txt"
+然后
+$ rm test.txt（这个只是删除了工作区的文件）
+这样会造成工作区和版本库不一致，下面会有两个选择：
+一是确实要从版本库中删除该文件，那就用命令git rm删掉，并且git commit：
+$ git rm test.txt
+$ git commit -m "remove test.txt"
+另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本：
+$ git checkout -- test.txt
+
+
+https://git.coding.net/zuiniao123/NewPockeCars.git
+https://git.coding.net/zuiniao123/lsp2.git
+
+提交：
+git init
+git status
+git add .
+git commit -m "说明"
+git status
+$ git remote add origin 远程仓库地址
+
+
+(
+如果输入$ git remote add origin git@github.com:djqiang（github帐号名）/gitdemo（项目名）.git
+提示出错信息：fatal: remote origin already exists.
+解决办法如下：
+1、先输入$ git remote rm origin
+2、再输入$ git remote add origin git@github.com:djqiang/gitdemo.git 就不会报错了！
+)
+
+
+$ git push -u origin master(第一次推送加 -u Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。)
+以后推送：
+$ git push origin master
+
+tips：
+如果在远程仓库先创建了文件（例如readme.md）那么首次推送会不成功。
+解决方法一：
+可以使用强制push的方法：
+$ git push -u origin master -f
+这样会使远程修改丢失，一般是不可取的，尤其是多人协作开发的时候。
+解决方法二：
+push前先将远程repository修改pull下来
+$ git pull origin master
+$ git push -u origin master
+
+克隆仓库：
+随便找个文件夹，都不需要git init直接输入：
+$ git clone https://git.coding.net/zuiniao123/NewPockeCars.git
+
+clone和pull的区别：
+clone是本地没有repository时，将远程repository整个下载过来，从无到有。
+pull是本地有repository时，将远程repository里新的commit数据(如有的话)下载过来，并且与本地代码merge。
+
+git pull相当于是从远程获取最新版本并merge到本地 git pull = git fetch（下载） + git merge（合并）
+git fetch更安全一些，在merge前，可以查看更新情况，然后再决定是否合并
+
+
+$ git fetch
+(首先从远程的origin的master主分支下载最新的版本到origin/master分支上)
+$ git log -p master..origin/master
+(比较本地的master分支和origin/master分支的差别)
+$ git merge origin/master
+进行合并
+
+
+git add -A=git add . +git add -u
+    git add -A stages All
+    git add . stages new and modified, without deleted
+    git add -u stages modified and deleted, without new
+
+github上首先得Fork别人的项目到自己的仓库中，然后复制自己的页面的项目地址才能
+git clone 自己的页面的项目地址
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https访问：
+https://coding.net/u/zuiniao123/p/NewPockeCars/git
+ssh访问:
+git@git.coding.net:zuiniao123/NewPockeCars.git
+
+
+
+ssh存放目录：
+/Users/xcc/.ssh/id_rsa(私钥)
+
+
+xcode上口袋汽车svn获取亲测可用：
+svn://115.29.163.91/ios
+iosuser13=yjyIos08（或者YjyIos08）
+
+
+
+效果：
+jenkins在某种时刻某种条件下，拉取svn/git中的代码，进行打包，将安装包放在自动化脚本的目录中，激活脚本开始运行测试，将测试结果发邮件。
+
+git远程：
+https://git.coding.net/zuiniao123/KoudaiqicheiOS.git
+https://git.coding.net/zuiniao123/KoudaiqicheAndroid.git
+
+
+
+jenkins:
+http://localhost:8080/
+
+ios：
+git add .
+git push origin master
+git push .
+git commit -m "hehela"
+git remote add origin https://git.coding.net/zuiniao123/KoudaiqicheiOS.git
+git push -u origin master
+
+
+android:
+Android Studio中显示gradle用户版所需：
+BaseLibrary
+CaptureActivity
+Koudaiqiche
+canrefresh
+library
+
+
+
+
+创建ssh：
+$ ssh-keygen -t rsa -C"932669040@qq.com"
+在'/Users/xcc/.ssh'
+用户名没填
+密码1993513biubiu(push文件的时候要输入的密码,ssh方式应该不用输入密码)
+Your identification has been saved in /Users/xcc/.ssh/id_rsa.
+Your public key has been saved in /Users/xcc/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:0kado9e58jIAvU07EGkJ2lIa2sOsaFnprG7AC+YgVhs 932669040@qq.com
+The key's randomart image is:
++---[RSA 2048]----+
+|    . o. o       |
+|   =.*  =. .     |
+|  .oO .o..+      |
+| .=E o.oo..o .   |
+|ooooo ..S=..o    |
+|*+..   oo.+  .   |
+|O..      ....    |
+|.+        oo     |
+|..         o.    |
++----[SHA256]-----+
+
+
+
+
+
+Proc-Type: 4,ENCRYPTED
+DEK-Info: AES-128-CBC,E6119CB2B1A5C76C1EEBE0253825DC00
+
+6sdX6Gs+ObLco6RgzVRIDLHI1t0WtIVk0geWd17scojILH/vOqFkOwGfXEnMLxu9
+dQZV98N7F203Lq9mVhVLUX80yHFWAQdlqEYejXavu/SpqUrP2qLu0N6xvPq0Tgj1
+U4WgrVbpJtRIyET9gFzlr1qM2IaXaJEFXF71XVaQjC+sa6JjxrXFMdl+yLJZEjap
+N893iLKfg8KucqYNkcwBdegD8lqLxjif3Ey82XTDXxUL5TmkosoMvJo84KF4C59k
+D1Z1TAFx/QsB67rkJrJHPk4+UbVPK39P6AneB4lYbpRFwpRfDZQbaUtIxTyeYzuI
+ImJcK8RKFO3fAbz09OBB2+02yZaDj8ti5z0PIMAMAiz5yh8NTbXivlO0EDzamgKO
+iz6oAJzoeEJNBxgH/iAf69+HdJseApj0h6NJ4tkcB+PRXKodAAr9LTQWfZD6WELx
+uF0YgFAnwj31ocRypZ1d32I1GUUhTWe5+YxU8BUoKQdra7J3R/TsO4153csh6dH3
+PFnciDkzlWiS2+Yr4OZzAzCHSvQXMYhGbUfmjd3kVIEO+gBi4GskyI1QWyXOn1jY
+4+BXPtXrdSiSUhAyCmtENA3vwVJRKqfzW0c7cFJPXd29JDe+NPiLSPTkChRyHCWV
+okCvms5fd8VA5c2rgMBdoyXQVJ1T89KBL8eiHyKEurUcIKD5tWru+KbU0rmluzX8
+rFr+cLR95w5JLh+ZIcNmWvG/eWtNQHEpdXcgCICnYStxvKt2eYSRq+So8laU+6tn
+YF/+UBDVuCiei4uIaSkgvGBThwMrdioMheZxOynoob8KunBqaFEzznGJPtzr96qk
+QsIaiRyzJ8prCK+hU5gfI8ZijhDGS1Qyey030G4DLdzAe8ttbica69Eq+0yNhSjS
+/i52ZpqMDXr8TxJpeRP6JbcPBv9FKWWfGjSUqkrn/wfnZnQle5f2emQWQjlO/znG
++2Q8EzFUtVZwvPgSURYgzHHkQ18kvVij/VbVlbIIVi4gFBllfsjvaB4P+BZvQpVy
+wEPaWMka4gHM2Q7MEQWSckzbPNfYDpXuU/SNpakNSllpHy/o1f9xyB7boyw9hHHW
+aWxaYeRzq+d78VwOBbkHr54aTVhXqRyRmMRYBO+5ae5HyZ5v9ej/B9L1KZofWD3K
+KPWEmof9Lv33mV4KdacTXl5UQd/y6/yUa+hX/0qk7oqnsByyl92rRx/VUSF92HGy
+0Ddf0QQZSyreSJ621OM+ErsDcCOfa8b/qN0b8SmxD0XIcWpAhO10WWtNDqm4xYR/
+9kbQZTDb4qzJEz5HT33gVPE0PwlXoR0slxPvc1mJ7KbuJrZ+uIaOJJbbEVt9HZ3A
+ssjI5WHjdo5dwredB2MNTNkREI1ek8/l2fLy5ixwB66rkER2vjBUPR7AwTiHmxbm
+3Mtt+E2SE1/a/5JvYahqLyMx43ppd2jIJ0+gWJyw85Nn+YB4qfVPPJO28Bx7HZXQ
+sZ1nh2R+imIucWZSQUqdpRTcQ7B63/D7yMXxlRC+CyUhwn1/CWB1PhOFSys3Q4Zr
+4YQkuOx/salqqpTgKTRIXuW1HMoCdUwCPUXMohNs/0sost8w9iKalsSdu4FPIfQz
+
+
+得到SSH KEY：
+$ cd /Users/xcc/.ssh/
+$ cat id_rsa.pub
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDnImNEeN8bZqvl/VoEqK4NkZfLNsp3CAgUXoMIXkS/MMSOKD9x0WyIDDHh1APC1v94EF0XP5Sdb/QFoeXZHisEaNZbfVL6Hnf7CCpP/jB9yckmxeBvFfrGaiksvz+YPXo9gT0xGhzbYF45cpXTYeJVD2VRyeyFdvw4bhzI+V6bn5NgeQZoXDDrnJcdMiZQc2yagBH3/nqGqRWpPkQHOkP457dl8TYJ56HTGuckEq7WUfnrXVbsgyGeAhxl5kc+Flj8rOkvUhihJuMhsuShhXqx5hOa5vPkmFF/IQJjk/H8O2tgE1dIXgMCkzVmlnrySTsooD+EzbLRhEi7mnl1SSjR 932669040@qq.com

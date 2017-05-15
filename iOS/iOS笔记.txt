@@ -1,0 +1,177 @@
+@interface部分：ßßß
+@interface NewClassesName : ParentClassName
+开头的符号 （-） 表示该方法是一个实例方法
+正号（+）表示该方法是一个类方法
+返回值：
+-（int）currentAge;笔记
+
+方法的参数：
+-(void) setNumber: (int) n;
+
+@implementation部分
+@implementation NewClassName
+{
+可以在这里初始化变量
+}
+
+oc中存在new
+[[类 alloc] init] == [类 new]
+访问属性的方法：[myFraction numeractor] myFraction.numerctor
+赋值方法：[myFraction setNumeractor:1] myFraction.numeractor = 1;
+
+@synthesize numerator,denominator; 合成，有了这个就可以在.m中直接使用numerator，而不用self.numerator。
+
+静态变量：
+static int a = 1;
+
+[self reduce]调用
+
+\n表示一个字符，有换行的意思。
+@autoreleasepool{}之间的叫做自动释放池，在应用创建对象的时候，系统能有效的管理应用所使用的内存。
+@"some words"--》常量NSString对象。
+
+[类的名称或者类的实例（也叫做接收者） 方法（发送一条消息）]；
+[receiver message];
+请求一个类或者实例来执行某个操作的时候其实就是在向他发送一条消息，消息的接收者称之为接收者。
+
+.h的 @interface 部分定义该头文件的父类,用于描述类和类的方法：@interface 类：NSObject
+方法定义：-(void)setNumber:(int)n;
+.m的@ implementation部分，实现头文件的方法和存储的数据。
+{int number ; }
+-(void) setNumber : (int) n { number = n ; }
+main.m部分：
+类 *实例 = [[类 alloc] init];
+[实例 setNumber];
+Fraction *myFraction中的*  表示myFraction是Fraction对象的引用（或者指针），myFraction并不存储数据，只是存储了一个引用（其实是内存地址），表明了对象数据在内存中的位置。
+
+方法的分类：类方法和实例方法
+类方法以（+）开头，是对类本身执行某些操作的方法，例如对类进行初始化。
+实例方法以（-）开头，对类的实例进行一些操作。
+
+方法的参数：-（void）setNumber:(int) n;
+
+设置方法和取之方法通常称为访问器方法.
+Fraction *myFraction = [Fraction new];
+等价于
+Fraction *myFraction = [[Fraction alloc] init];
+
+
+
+第四章:数据类型和表达式
+数据类型:int,float,double(范围是float的两倍)w,char.
+oc中,任何数字,单个字符或者字符串都被称作为常量.
+58(常量整数值),@"hello world"(常量字符串对象),@58(常量数字对象)
+如果要在nslog中打印的话,那么用: %i 表示int类型; %2i 表示显示整数的同时还会占用显示器的两列；%f 表示 float类型;%e 或者 %g 表示double;%c 表示 char类型(\n也是个char类型，虽然有两个字符)
+限定词：
+%li 表示 long int ;
+long long int(double)表示更大范围的int(double)变量;
+%hi,%hx,%ho --> short int 表示存储相当小的整数,用short int是为了内存的考虑;
+%u,%x,%o --> unsigned int a 表示变量a只用来保存正直.
+id类型:id数据类型可以存储任何类型的对象.id what; id类型是多态和动态绑定的基础.
+%p --> id;
+算数表达式:
+
+类型转换：
+int i1=1;(float)i1
+id类型的强制转换
+id myNumber; Fraction *myFraction; myFraction = (Fraction *) myNumber;
+id类型，可以存储任何类型的对象。
+
+
+第五章:循环结构
+for(n = 1;n <= 200; n = n+1){}
+while(count <= 5){}
+do{}while();
+break;continue;
+
+第六章 选择结构
+if(){} else if(){} else{}
+switch(){case 'char':...break;default:...break;}
+条件运算符：条件运算符：s = (x < 0) ? -1 : x * x;
+
+第七章 类
+
+7.1分离接口和实现文件：
+7.1.1：
+类的声明放在放在class.h文件中，包含类的公开信息；类的定义放在class.m文件中,包含的是私有信息也就是实例变量和代码。
+7.1.2：
+导入文件时候，系统文件用<>，例如#import <Foundation/Foundation.h>;
+自己创建的文件用双引号""，例如#import "Fraction.h".
+
+7.2合成存取方法
+原先是在.h中定义方法，在.m中定义变量以及实现方法但是用了@property@synthesize之后就可以不用这样了。
+7.2.1：
+自动生成设置方法和取值方法：1.在接口部分使用@property int numerator,denominator;2.在实现文件中@synthesize numerator,denominator;,
+7.2.2：
+不用@synthesize指令，只使用 @property 指令编译器就会自动生成setter和getter方法，但是编译器自动生成的方法会以下划线_作为其名称的第一个字符。
+
+7.3使用点运算符访问属性
+[myFraction numerator] 或者 myFraction.numerator 得到该属性的值；
+[myFraction setNumerator: 1] 或者 myFraction.numerator = 1 设置该属性的值；
+
+7.4 具有多个参数的方法
+7.4.0:
+具有多个参数的方法在头文件中-(void) setTo:(int) n over:(int)d;
+在实现文件中：-(void)setTo:(int) n over: (int) d{ numerator = n; denominator = d; }
+主程序中：[myFraction setTo: 1 over: 3];
+7.4.1:
+不带参数名的方法：-(int) set : (int) n (int) d; [aFraction set :1 :3];
+但是不推荐使用，因为不易懂且不直观。
+7.4.2：参数为引用时：
+-（void） add：(Fraction *) f{ n = n*f.d + d*f.n; d = d*f.d};
+使用：[aFraction add : bFraction];
+
+7.5局部变量
+7.5.0 局部变量使用前需要先赋值。
+7.5.1 方法的参数也是局部变量，当传递一个对象作为参数时，实际上传递的是一个数据存储位置的引用。
+7.5.2 static关键字可以让局部变量保留多次调用一个方法所得到的值。static int hitCount =0 ;
+使用示例：
+-(int)showPage{ static int pangeCount = 0; ++pageCount; return pageCount; }
+pageCount成为局部静态变量之后，可以得到所有对象调用了showPage的次数；
+pageCount如果不是局部静态变量，而移出方法体外，成为一个实例变量，那么pageCount可以计算出每个对象调用的showPage的次数。
+
+7.6 self关键字
+self用来指明对象(这个对象指的就是调用该方法的对象,对象又是由类产生的)是当前方法的接收者.
+[self reduce]
+关于self,在[aFraction add: bFraction];中的add方法里调用了reduce方法:[self reduce],那么self指的就是aFraction,self作为 aFraction 的引用.
+
+7.7 在方法中分配和返回对象
+-(Fraction *) add: (Fraction *) f 参数为Fracton的一个引用，返回值也是.
+
+第八章 继承
+
+8.1 一切从根类开始
+8.1.0：ßßß
+NSObject是顶级的父类，也就是其上没有父类了。
+子类能直接使用父类的实例方法和实例变量 ， 而不用再接口或者实现文件中再次定义。
+8.1.1：
+在子类中调用某个方法时，会在本类-》父类——》父类的父类一直在寻找，寻找不到会报错类似“warning:classXX may not respond to '方法名/实例名'”
+8.2 通过继承来扩展：添加新方法
+在自定义的子类中写子类自己的方法，然后调用父类的方法。
+8.2.2 @class 某类名 相当于部分作用的 #import “某头文件”，可以在遇到 XX *xx 时告诉编译器XX是一个类的名字 ， xx是类的一个对象。
+
+8.3 覆写方法
+这个比较简单
+8.4 抽象类
+这个没怎么说
+
+第九章 多态，动态类型和多态绑定
+9.1 多态，相同的名称，不同的类
+
+获得类对象：[Square class];
+如果 mySquare 是 Square 对象的实例，可以通过[mySquare class]知道他所属的类；
+要查看存储在变量obj1和obj2中的对象是不是相同的类实例，可以通过if([obj1 class] == [obj2 class])来判断；
+要查看变量是不是类的对象可以用[实例 isMemberOfClass:[Fraction class]];
+
+@ try{} @ catch{（NSException *exception）NSLog(@"caught %@%@",[Exception name],[excetion reason]};
+
+第十章 变量和数据类型
+10.1 对象的初始化
+很多类中有好几个初始化方法，另外也可以通过重载init方法来对类在初始化时做一些事情。
+
+全局变量，在文件开头定义一个变量：int num =0; 在不同的文件中使用则需要在文件中申明这个全局变量extern int num；
+静态变量,
+枚举，enum flag { true, false} ;
+
+第十一章 分类和协议
+分类

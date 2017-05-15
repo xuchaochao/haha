@@ -1,0 +1,210 @@
+激活网店 激活仓储契约
+
+
+("{0}/useapk/app-CIT.apk".format(os.getcwd()))
+
+select * from cm_identify_relation_location where identify_code='105416'--51887100000049738
+select * from dm_realistic_information where sub_item_ukid=51887100000049738 --6374500--------------------------------------
+select * from xdw_app.st_meta_inventory where location_ukid=6374500--------------------------------------
+
+
+
+1.确定throttle是否是真的有用的,就是每个时间之间的时间间隔.
+2.单张图片加上事件操作的标示.
+3.图片拼凑成gif,最后的显示效果是两个gif合成一个gif.
+4.adb logcat中过滤出应用的日志
+5.monkey日志中的错误发生的时间能拿出来,这个时间要和截图的时间,logcat的时间对的上.
+
+
+
+
+
+查找的关键字:
+anr = '// NOT RESPONDING: ' + package_name + ' '
+exception = '// CRASH: ' + package_name + ' '
+
+
+跑稳定性测试的账号密码:
+152 5252 0001 ~152 5252 0007
+0003+0006密码是 333333
+
+
+为了防止wifi中断可以采用usb上网或者在设置中关掉下拉开关的方法
+登录的话用uiautomator脚本实时监控
+
+
+脚本每五分钟下载一次cit-apk，md5对比两次是否是同一个包。
+如果是同一个包，继续等待五分钟。
+如果不是同一个包，杀掉手机里的monkey进程，将log做处理后生成测试报告推送到开发那边，然后将新的包安装到手机里，启动uiautomator脚本执行登陆（或者直接adb命令输入文字啥的），忽略错误，一直存着log；
+如果意外登出了判断是否在LoginActivity，如果是的话则在执行一遍uiautomator脚本进行登陆。
+
+am start -n com.example.android.helloactivity/com.example.android.helloactivity.HelloActivity
+
+
+
+adb shell am start -n com.iscs.mobilewcs/com.iscs.mobilewcs.activity.login.LoginActivity
+
+
+
+adb shell monkey -p com.koudaiqiche.koudaiqiche -s 100 --throttle 1000 --randomize-throttle  -v -v 30000
+
+adb shell monkey -p com.example.ftpdemo 50000 -v -v -v
+
+脚本每五分钟下载一次cit-apk，md5对比两次是否是同一个包：
+脚本所在目录每过五分钟下载cit-apk，然后md5对比
+
+将log做处理后：
+抓出carsh和anr
+
+启动指定activity
+adb shell am start -n com.android.browser/.BrowserActivyty
+
+/查询已安装包名列表
+adb shell pm list package
+
+//使用该命令可以查看指定应用的实时日志
+adb logcat | find "packageName"
+//使用该命令后指定的应用的相关日志会导出到相应位置
+adb logcat | find "packageName" >F:\test\test.txt
+
+//将C盘目录下的apktool.log复制到设备的/mnt/sdcard/目录中
+adb push C:\apktool.log /mnt/sdcard/
+
+
+将本地.apk文件安装到模拟器设备中
+adb -e install I：\com.android.cts.uiautomator.apk
+//替换掉模拟器设备中的.apk文件然后重新安装一次
+adb -e install -r I：\com.android.cts.uiautomator.apk
+
+
+获取真机SN号
+adb -d get-serialno
+
+
+截图保存到SD卡里再导出
+
+$ adb shell screencap -p /sdcard/screen.png
+$ adb pull /sdcard/screen.png
+$ adb shell rm /sdcard/screen.png
+
+adb shell screencap -p /sdcard/1.png
+
+
+5. 过滤 log 文件
+有时需要分析 log 文件，过滤 log 文件还是使用 grep。例如 log 文件为 myapp.log，要匹配 tag 为 MyApp 和 MyActivity 的输出，然后输出到 newmyapp.log：
+
+
+cat myapp.log | grep "^..MyApp\|^..MyActivity" > newmyapp.log
+
+
+
+4、从当前开始显示
+
+      logcat 有缓存，如果仅需要查看当前开始的 log，需要清空之前的。
+
+      adb logcat -c && adb logcat
+
+日志时间
+      adb logcat -v time |grep com.example.ftpdemo > /Users/xcc/Desktop/monkey/log/logcat.txt
+
+      adb shell monkey -p com.example.ftpdemo  --throttle 1000 -v -v -v 50000> /Users/xcc/Desktop/monkey/log/monkey.txt
+      adb shell monkey time -p com.example.ftpdemo 50000 -v -v -v 1>/Users/xcc/Desktop/monkey/log/monkey.txt 2>/Users/xcc/Desktop/monkey/log/error.txt
+adb shell time monkey -p com.example.ftpdemo 50000 -v -v -v
+
+-kill-process-after-error
+--ignore-timeouts
+--ignore-security-exceptions
+
+
+
+adb shell monkey -p com.example.ftpdemo --throttle 500 --ignore-crashes --ignore-timeouts --ignore-security-exceptions --ignore-native-crashes --monitor-native-crashes -v -v -v 800000 >/Users/xcc/Desktop/monkey/log/monkey.txt
+
+def log_cat(way = "/Users/xcc/Desktop/monkey/log/logcat.txt", packageName = "com.example.ftpdemo"):
+adb logcat -c -v time |grep com.example.ftpdemo > /Users/xcc/Desktop/monkey/log/logcat.txt
+
+adb logcat -c && adb logcat -v time > /Users/xcc/Desktop/monkey/log/logcat.txt
+
+
+
+
+def login():
+	while True:
+		# os.system("adb -s 21ac57e2 shell uiautomator runtest testLogin.jar -c com.loginISCS.Login")
+		os.system("adb -s O7E6HYS499999999 shell uiautomator runtest testLogin.jar -c com.loginISCS.Login")
+	pass
+测试-徐超超  17:14:49
+adb logcat | grep ActivityManager
+
+
+
+android create uitest-project -n testLogin -t 9 -p /Users/xcc/Desktop/LoginIscs/
+/Users/xcc/Desktop/LoginIscs/build.xml
+ant -buildfile /Users/xcc/Desktop/LoginIscs/build.xml
+adb -s O7E6HYS499999999 push /Users/xcc/Desktop/LoginIscs/bin/testLogin.jar /data/local/tmp/
+adb -s O7E6HYS499999999 shell uiautomator runtest testLogin.jar -c com.loginISCS.Login
+
+
+
+
+
+
+cmd = "adb shell monkey -p com.iscs.mobilewcs --throttle 500 -v -v -v 800000 >/Users/xcc/Desktop/monkey/smallMonkey/log/monkey.txt"
+
+
+adb logcat -c && adb logcat -v time |grep com.iscs.mobilewcs && adb shell monkey -p com.iscs.mobilewcs --throttle 500 -v -v -v 200 >/Users/xcc/Desktop/monkey/smallMonkey/log/haha.txt
+
+
+com.iscs.mobilewcs.activity.login.LoginActivity
+
+adb shell am start -n com.example.ftpdemo/com.example.ftpdemo.MainActivity
+
+android create uitest-project -n testLogin -t 9 -p D:\JavaCode\LoginIscs
+D:\JavaCode\LoginIscs\build.xml
+ant -buildfile D:\JavaCode\LoginIscs\build.xml
+adb -s 21ac57e2 push D:\JavaCode\LoginIscs\bin\testLogin.jar /data/local/tmp/
+D:\JavaCode\LoginIscs\bin\testLogin.jar
+adb -s 21ac57e2 shell uiautomator runtest testLogin.jar -c com.loginISCS.Login
+
+
+
+adb logcat -c && adb logcat -v time |grep com.iscs.mobilewcs &&
+
+adb shell monkey -p com.example.activitytest --throttle 100 --ignore-crashes --ignore-timeouts --ignore-security-exceptions --ignore-native-crashes --monitor-native-crashes -v -v -v 1000
+>/Users/xcc/Desktop/monkey/smallMonkey/log/haha.txt
+
+adb shell monkey -p com.koudaiqiche.koudaiqiche -v -v -v 20000
+
+
+adb logcat -c && adb logcat -v time |grep com.iscs.mobilewcs > {1}".format(packageName, way))
+
+
+
+
+用这个抓出Crash
+adb logcat -v time | grep AndroidRuntime
+adb shell monkey -p com.example.activitytest --throttle 100 --ignore-crashes --ignore-timeouts --ignore-security-exceptions --ignore-native-crashes --monitor-native-crashes -v -v -v 10000 >/Users/xcc/Desktop/monkey/log/monkey.txt
+adb shell monkey --pkg-blacklist-file /data/local/tmp/black.txt --throttle 100 --ignore-crashes --ignore-timeouts --ignore-security-exceptions --ignore-native-crashes --monitor-native-crashes -v -v -v 1000
+
+--pkg-blacklist-file /data/local/tmp/black.txt
+--pkg-blacklist-file /data/local/tmp/black.txt
+
+异常与错误类型
+说明
+java.lang.NullPointerException
+空指针异常
+java.lang.ArraIndexOutOfBoundsException
+数组溢出
+java.lang.ClassNotFoundException
+类不存在
+java.lang.ArithmeticException
+数学运算异常
+java.lang.IllegalArgumentException
+方法参数异常
+java.os.FileNotFoundException
+文件未找
+java.lang.NumberFormatException
+数值转化异常
+java.lang.StackOverflowError
+堆栈异常错误
+java.lang.OutOfMemoryError
+内存溢出错误

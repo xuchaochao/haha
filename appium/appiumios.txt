@@ -1,0 +1,266 @@
+tell application "System Events"
+	click at {750, 1070}
+	delay 10
+end tell
+
+tell application "QQ" to say "what"
+
+
+
+2016.9.23发现:
+appium版本是1.5.3，swipe方法里的参数含义变了。
+swipe(start_x,start_y,end_x,end_y,duration),
+其中前两个参数含义没变，为起始点横纵坐标；end_x,end_y代表的是偏移量（即距离起始位置多远），可以为正数、负数。
+
+定位:
+ios 把所有可见元素的name，value，label 都认为是 accessiblity id?
+iOS 基本元素都有id。而且id 是指 元素的name，value，label?
+
+By.Id,里面就填写name值
+
+1.name:y3_1
+=By.id("y3_1");
+2.type: 
+3.value: 
+4.label: 
+5.hint: 
+6.location:
+7.size: 
+8.xpath:
+
+
+
+
+
+
+
+iphone 6坐标:
+宽:375  高:667
+左上角:(0,0)
+右上角:(375,0)
+左下角:(0,667)
+右下角:(375,667)
+
+
+
+rm -rf /Users/xcc/Documents/Dev/code/appiumdemo/app/NewPockeCars.app
+cp -R /Users/xcc/.jenkins/workspace/NewPockeCars/build/Debug-iphoneos/NewPockeCars.app /Users/xcc/Documents/Dev/code/appiumdemo/app/
+
+
+/Users/xcc/.jenkins/workspace/NewPockeCars/build/ipa/NewPockeCars.ipa
+
+
+首先先删除eclipse目录下的.app文件:
+rm -rf /Users/xcc/Documents/Dev/code/appiumdemo/app/NewPockeCars.app
+然后将jenkins中的.app文件复制到eclipse目录下:
+cp -R /Users/xcc/.jenkins/workspace/NewPockeCars/build/Debug-iphoneos/NewPockeCars.app /Users/xcc/Documents/Dev/code/appiumdemo/app/
+
+
+1.clean:
+xcodebuild clean
+
+2.打包成.app:
+Release:
+xcodebuild -target NewPockeCars -configuration Release
+Debug:
+xcodebuild -target NewPockeCars -configuration Debug
+
+3.从.app打包成.ipa:
+Release:
+xcrun -sdk iphoneos  PackageApplication -v /Users/xcc/Desktop/测试备份/NewPockeCarsComplete/build/Release-iphoneos/NewPockeCars.app -o /Users/xcc/Desktop/测试备份/NewPockeCarsComplete/build/NewPockeCars.ipa
+Debug:
+xcrun -sdk iphoneos  PackageApplication -v /Users/xcc/Desktop/测试备份/NewPockeCarsComplete/build/Debug-iphoneos/NewPockeCars.app -o /Users/xcc/Desktop/测试备份/NewPockeCarsComplete/build/NewPockeCars.ipa
+
+
+
+
+
+ http://www.koudaiqiche.com/yjy2/cate/2
+ 分类
+ 2
+
+ 参数学习：
+  -a ADDRESS, 
+  --address ADDRESS
+                        IP Address to listen on
+
+  -p PORT, 
+  --port PORT           port to listen on
+
+ --app APP              IOS: abs path to simulator-compiled.app file or the bundle_id of the desired target on device;
+                        Android: abs path to .apk file
+
+ --language LANGUAGE   [DEPRECATED] - Language for the iOS simulator / 
+                        Android Emulator
+
+ --no-reset             Do not reset app state between 
+                        sessions (IOS: do not delete app plist files; 
+                        Android: do not uninstall app before new session)
+
+--full-reset            (iOS) Delete the entire simulator 
+                        folder. 
+                        (Android) Reset app state by uninstalling app 
+                        instead of clearing app data. On Android, this will 
+                        also remove the app after the session is complete.
+
+打包：
+参考自：http://blog.csdn.net/temanm/article/details/52104806
+
+命令生成真机可安装使用的.app包：
+xcodebuild -target NewPockeCars clean -configuration Debug
+xcodebuild -target NewPockeCars CODE_SIGN_IDENTITY="iPhone Developer" -configuration Debug
+.app->.ipa:
+只要新建一个名为“Payload”的文件夹，将.app文件放到里面，并将Payload文件夹压缩，将其后缀名改为ipa即可（名字也可改为其他了现在）。
+还有其他方法没有试验过：{
+打包生成ipa
+xcrun -sdk iphoneos PackageApplication -v ${appPath} -o ${ipaOutPath} --sign "${CODE_SIGN_IDENTITY}" 
+--embed "${PROVISIONING_PROFILE}.mobileprovision"
+其中appPath是编译生成的源app路径，ipaOutPath是生成的ipa包的输出路径。${CODE_SIGN_IDENTITY}和mobileprovision分别对应证书和mobileprovision文件的路径，这两个参数不加则用默认工程配置文件中的证书
+需要注意的是，在执行xcrun的时候，需要进入到项目工程的build的目录下才行。
+}
+ideviceinstaller -i /Users/xcc/Desktop/testLast/NewPockeCarsComplete/build/Debug-iphoneos/NewPockeCars.app
+
+ideviceinstaller -U com.koudaiqiche.PocketCars
+
+（
+口袋汽车相关打包证书和PP文件：
+Signing Identity:       
+"iPhone Developer: Bin Jin (G84F977LXM)"
+Provisioning Profile: 
+"iOS Team Provisioning Profile: com.koudaiqiche.PocketCars"
+(c0033f09-a762-4a20-a83c-9307200ef865)
+）
+
+
+模拟器打包：
+xcodebuild -target NewPockeCars
+xcodebuild -list
+xcodebuild -showsdks
+xcodebuild -sdk iphonesimulator9.3 -target NewPockeCars clean
+xcodebuild -sdk iphonesimulator9.3 -target NewPockeCars
+
+Xcode上ipa打包：
+证书从开发者官网下载，打包选择adhoc啥的，然后就打包成ipa了。
+bash安装ipa到真机（查看ideviceinstaller的相关命令直接bash ideviceinstaller）：
+ideviceinstaller -i /Users/xcc/Desktop/NewPockeCars/NewPockeCars.ipa
+
+
+appium -U 7e7b54c632bcaa44f661726271aeb3dcf0ace1e7 --app com.koudaiqiche.PocketCars --ipa /Users/xcc/Desktop/NewPockeCars/NewPockeCars.ipa
+
+
+1.
+IOSDriver和AndroidDriver都继承了AppiumDriver，所以在工具类AppiumUtil中应该用各自待测系统对应的Driver。
+
+2.
+Webelement元素类应用driver两种方法：
+方法一：占内存
+		元素类中：
+		public static final MobileElement WEB_ELEMENTVIEW = new AppiumTest().driver.scrollTo("Web View");
+		
+		含有driver的类中：
+		public AppiumDriver<MobileElement> driver;
+
+		public  AppiumDriver<MobileElement>  iosSetup() throws MalformedURLException {
+		//该方法中生成driver
+		return driver
+		}
+
+方法二：
+		元素类：
+		public static final MobileElement URL_INPUT = AppiumTest.driver.findElementByClassName("UIATextField");
+		含有driver的类中：
+		static AppiumDriver<MobileElement> driver;
+		public  void  iosSetup() throws MalformedURLException {
+		//该方法中生成driver
+		}
+
+3。@SuppressWarnings(unchecked):屏蔽某些编译时的警告信息 
+
+4.滚动查找：
+
+android:
+		scrollTo()和scrollToExact()方法在java-client上虽然过时了但是还能使用，下一版就不能用了。
+		其实scrollTo()方法走的还是：
+		public T scrollTo(String text) {
+        String uiScrollables =
+            uiScrollable("new UiSelector().descriptionContains(\"" + text + "\")") + uiScrollable(
+                "new UiSelector().textContains(\"" + text + "\")");
+        	return findElementByAndroidUIAutomator(uiScrollables);
+    	}
+    	public T scrollToExact(String text) {
+        String uiScrollables =
+            uiScrollable("new UiSelector().description(\"" + text + "\")") + uiScrollable(
+                "new UiSelector().text(\"" + text + "\")");
+        return findElementByAndroidUIAutomator(uiScrollables);
+    }
+
+    但问题是，这个滑动的uiscrollable()没看到可以直接使用的啊！
+
+iOS:
+	ios缓缓咯~~
+
+
+
+4.模拟器版本的app path:/Users/xcc/Library/Developer/Xcode/DerivedData/NewPockeCars-bjttmvhcwjvtnreznmupskfqkzdf/Build/Products/Debug-iphonesimulator/NewPockeCars.app/
+
+
+
+8.appium版本资料：
+
+appium版本为1.4.13 （2015年10月份发布的），支持的ios版本最高到8.4。
+ios 9在2015年10月份发布
+
+appium版本为1.5.3发布日期2016年6月8号
+appium版本为1.5.2发布日期2016年4月21号
+appium版本为1.5.1发布日期2016年3月30号iOS 9.3 (Xcode 7.3) support
+appium版本为1.5.0发布日期2016年2月26号iPhone 6 + 6S support，iOS 9.3 support（就说是ios从这儿版本开始的！！！！，android是）
+appium版本为1.4.16发布日期2015年11月21号
+appium版本为1.5.0发布日期2016年2月26号
+appium版本为1.5.0发布日期2016年2月26号
+
+
+windows上最新为1.4.16，2015年12月发布
+
+9.java-client版本：
+4.0.0:
+		1.不在支持1.5.0之下的appium
+		2.scrollTo()和scrollToExact()标注为过时，并且在4.0.1上面甚至都不会出现了
+		3.方法getNamedTextField(String name) 也过时了，下个版本移除。
+		4.NetworkConnectionSetting也过时
+		5.Connection类新增
+
+10.appium不同版本中的swipe滑动问题 ：
+在做appium自动化中，升级appium到1.5.2版本使用swipe方法实现上下左右滑动时候，，遇到之前写的上滑屏幕方法没有见效，而是变成下滑，但是在1.4版本里使用正常，经过调试和查看appium日志，发现1.5版本传入的参数变成偏移量，赶紧改了下，终于又能上滑屏幕了。
+swipe(self,start_x,start_y,end_x,end_y,duration=None)
+在appium1.5版本以下，swipe的方法中的end_x和end_y是实际要滑动的目的地坐标
+但是在1.5版本以上的，end_x和end_y是相对于前面start_x和start_y坐标的偏移量。
+
+11.
+android 中的模糊查找（就是那个验证码动态变化）用uiautomator的uiselector.textcontain
+ios用：http://blog.csdn.net/hqzxsc2006/article/details/51066005
+12.
+在网页中输入文字的方法：
+利用Selenium中Webdriver执行js方法实现中文输入
+JavascriptExecutor jse = (JavascriptExecutor) driver;
+jse.executeScript("document.getElementById('word').value='输入法'");
+
+13.定位：
+没有id，name（1.5.0以上失效了）
+ClassName：
+classname对应type，当页面存在多个相同type时可以用driver.findElementsByClassName("UIAStaticText").get(1)；
+iOSUIAutomation定位：
+driver.findElements(By.IosUIAutomation(String str))；
+
+
+
+
+
+
+
+
+
+
+
+
+
+

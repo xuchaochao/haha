@@ -1,0 +1,104 @@
+testng:
+1.这句话:
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+不加的话会有警告的.
+
+2.
+<suite name="framework_testng">  
+<test verbose="2" name="TestGroups">  
+        <groups>  
+            <run>  
+                <include name="functest" />  
+                <exclude name="checkintest" />  
+            </run>  
+        </groups>  
+  
+        <classes>  
+            <class name="com.dragon.testng.annotation.TestngGroups" />  
+        </classes>  
+    </test>  
+</suite>  
+表明在这个测试套件中只运行"functest"组@Test(groups = { "functest" })).
+
+3.
+<test name="Regression1" preserve-order="false"> 
+    <classes>   
+        <class name="com.package.Test1">  
+          <methods>  
+            <include name="m1" />   <!-- 列出指定要执行的方法 -->  
+            <exclude name="m2" />   <!-- 列出指定不执行的方法 -->  
+          </methods>    
+        </class>   
+    </classes>  
+</test>  
+表明在这个测试套件中要运行测试方法"m1"不运行m2.
+  
+4.
+name 	此套件的名称。这是一个强制性的属性。
+verbose 	这个运行级别或冗长。
+parallel 	由TestNG 运行不同的线程来运行此套件。
+thread-count 	使用的线程数，如果启用并行模式（忽略其他方式）。
+annotations 	在测试中使用注释的类型。
+time-out 	默认的超时时间，将用于本次测试中发现的所有测试方法。
+@Test(enabled = false) 表示这个方法不运行
+@Test(expectedExceptions = xxx.class) 可以在发生异常的情况下抛出
+@Test(dependsOnMethods = { "initEnvironmentTest" }) 可以让标注了的这个方法在dependsOnMethods中的方法执行后在执行(一般用于初始化啥的)
+
+5.参数化:
+
+在测试方法中加上:
+@Test
+@Parameters("myName")
+就可以取到xml中的
+<suite name="Suite1">
+    <test name="test1">
+	<parameter name="myName" value="manisha"/> 
+	<classes>
+	    <class name="ParameterizedTest1" />
+	    </classes>
+    </test>
+</suite>
+"myName"的值"manisha"
+ TestNG 对testng.xml 的参数的类型指定的值会自动尝试转换。下面是支持的类型：
+String
+int/Integer
+boolean/Boolean
+byte/Byte
+char/Character
+double/Double
+float/Float
+long/Long
+short/Short
+
+在测试方法中加上:
+@Test(dataProvider = "test1")
+就可以取到@DataProvider(name = "test1")
+    public static Object[][] primeNumbers() {
+        return new Object[][] { { 2, true }, { 6, false }, { 19, true },
+        	{ 22, false }, { 23, true } };
+    }
+
+
+
+6.监听器:
+6.1:
+IReporter:
+TestNG 提供了默认的测试报表。但如果用户希望有不同格式的测试报表，就需要使用 IReporter 监听器。IReporter 监听器只有一个方法需要实现。
+void generateReport(java.util.List<XmlSuite> xmlSuites, java.util.List
+<ISuite> suites, java.lang.String outputDirectory)
+该方法在所有测试方法执行结束后被调用，通过遍历 xmlSuites 和 suites 能够获取所有测试方法的信息以及测试结果。outputDirectory 是默认的测试报表生成路径，当然你可以指定其他路径生成报表。
+6.2:
+ISuiteListener
+ISuiteListener 类似于 IInvokedMethodListener，区别是 IInvokedMethodListener 针对的是测试方法，而 ISuiteListener 针对的是测试套件。ISuiteListener 使用户有机会在测试套件开始执行以及执行结束之后嵌入自己的逻辑。该监听器要求实现的方法如下。
+void onFinish(ISuite suite) 
+void onStart(ISuite suite)
+6.3:
+ITestListener
+
+如果要在测试方法执行成功、失败或者跳过时指定不同后续行为，可以通过 IInvokedMethodListener 实现，不过更为简便的方式是利用 ITestListener 监听器。ITestListener 监听器要求实现的方法中包含如下三个。
+void onTestFailure(ITestResult result) 
+void onTestSkipped(ITestResult result) 
+void onTestSuccess(ITestResult result)
+PS:
+TestListenerAdapter 已经实现 ITestListener，并且提供了一些有用的方法，比如分别获取所有成功失败跳过三种测试结果的测试方法的方法，并且 ITestListner 中有很多方法而 TestListenerAdapter 已给出了默认实现。因此，继承 TestListenerAdapter 后，便只需关注需要修改的方法。
+

@@ -1,0 +1,41 @@
+!!!!!!不要想着全部写完所有的用例,下面这些(除了最后)全部做完才可以试着全部写完用例!!!!!
+
+
+jmeter+回归测试
+jmeter+mock server
+了解性能测试
+jmeter+性能测试
+jmeter+jenkins
+appium测试框架+java
+appium Api的熟悉
+appium+ios/android用例编写+appium用例编写中调用商家版的接口能否OK的("商家中点击消费"这个动作的接口,然后用户版这边能否接收到并有相应的反应.)
+android并行测试
+shell脚本
+测试知识面试总结+禅道!
+postman+javascript的验证参考jmeter中的处理
+ant maven testng junit的学习
+uiautomator的学习
+android xposed的学习
+android开发基础的复习
+monkeyios+monkeyandroid
+
+/Users/xcc/.jenkins/workspace/jmeterTest/src/test/jmeter/v2ex.jmx
+最后有时间看看python,看看能不能写的起appium的demo(windows上写起来过了的)
+最后的最后看看macaca
+
+
+域名godaddy
+932669040@qq.com
+用户名:pansuqing
+密码:1993513@@Pan
+
+结算账单:
+名字:suqing
+姓氏:pan
+邮件:932669040@qq.com
+国家:中国
+地址1:hangzhou-guanshan
+邮编:310051
+城市:hangzhou
+省份:浙江
+电话:18267990494
