@@ -140,7 +140,7 @@ sql语句要以分号为结尾
 
 创建数据库:
 CREATE {DATABASES|SCHEMA} [IF NOT EXITS] db_name [DEFAULT] CHARACTER SET [=] charset_name
-{}表示一定要有的内容.|表示可选择的.[]表示可选择的 
+{}表示一定要有的内容.|表示可选择的.[]表示可选择的
 创建数据库t1:
 CREATE DATABASE t1;
 创建数据库:
@@ -176,23 +176,23 @@ drop database t1;
 如果需声明无符号类型的话就需要在类型前加上unsigned。
 数据类型 储存范围 字节
 
-TINYINT 
+TINYINT
 有符号值：-128到127 ( -2的7次方 到 2的7次方-1 ) 1
 无符号值： 0到255 ( 0 到 0的8次方-1 )
 
-SMALLINT 
+SMALLINT
 有符号值：-32768到32767 ( -2的15次方 到 2的15次方-1 ) 2
 无符号值： 0到65535 ( 0 到 0的16次方-1 )
 
-MEDIUMINT 
+MEDIUMINT
 有符号值：-8388608到8388607 ( -2的23次方 到 2的23次方-1 ) 3
 无符号值： 0到16777215 ( 0 到 0的24次方-1 )
 
-INT 
-有符号值：-2147483648到2147483647 ( -2的31次方 到 2的31次方-1 ) 4 
+INT
+有符号值：-2147483648到2147483647 ( -2的31次方 到 2的31次方-1 ) 4
 无符号值： 0到4294967295 ( 0 到 0的32次方-1 )
 
-BIGINT 
+BIGINT
 有符号值：-9223372036854775808到9223372036854775807 ( -2的63次方 到 2的63次方-1 ) 8
 无符号值： 0到18446744073709551615 ( 0 到 0的64次方-1 )
 
@@ -326,7 +326,7 @@ mysql> create table tb3(
     -> id smallint unsigned auto_increment primary key,
     -> username varchar(30) not null
     -> );
-    
+
     将id设置为自增长后就可以单独只给username赋值了,id会自动增长
 
 mysql> create table tb4(
@@ -349,13 +349,13 @@ UNIQUE KEY
 （1）唯一约束
 （2）唯一约束可以保证记录的唯一性
 （3）唯一约束的字段可以为空值（NULL）
-（4）每张数据表可以存在多个唯一约束  
+（4）每张数据表可以存在多个唯一约束
     mysql> CREATE table tb5(
     -> id smallint unsigned auto_increment primary key,
     -> username varchar(20) not null unique key,
-    -> age tinyint unsigned);   
+    -> age tinyint unsigned);
     从此username就是惟一值了 不能出现重复的
-    
+
 **********2.14
 初设默认约束
 
@@ -374,9 +374,9 @@ sex ENUM('1','2','3') DEFAULT '3'
 使用数据库 USEdb_name
 删除数据库（表）DROP DATABASE/TABLE db_name/tb_name
 创建数据表 CREATE TABLE tb_name(
-_name type [NULL | NOT NULL] [AUTO_INCREMENT(PRIMARY 
+_name type [NULL | NOT NULL] [AUTO_INCREMENT(PRIMARY
 
-KEY)] 
+KEY)]
 查看数据表结构 SHOW TABLE [FROM db_name]
 显示数据表结构 SHOW COLUMNS FROM tbl_name
 插入记录    INSERT[INTO]tb1_name[(col_name,...)]VALUES(val,...)
@@ -424,7 +424,7 @@ FOREIGN KEY 外键约束
 1. CASCADE:父表删除或更新将自动删除或更新子表中匹配的行
 **********2. SET NULL：父表删除或更新行将设置外键列为NULL。如果使用该项，必须外键列没有指定NOT NULL
 *****3.RESTRICT:拒绝对父表的删除或更新操作
-4.NO ACTION 在MySQL 中 == RESTRICT    
+4.NO ACTION 在MySQL 中 == RESTRICT
 
 *****3.4
 表级约束与列级约束
@@ -467,11 +467,11 @@ ALTER TABLE tb_name DROP col_name;
 *****3.8
 修改数据库-修改列定义和更名数据表
 
-时间类型 year time date datetime timestamp 
+时间类型 year time date datetime timestamp
 创建数据库 create database x;
 修改数据库 alter database x character set utf8;
 查看数据库信息 show create database x;
-枚举类型 enum('value1','value2','value3') 
+枚举类型 enum('value1','value2','value3')
 显示当前服务器版本 select version（）；
 显示当前日期时间 select now（）；
 显示当前用户 select use（）；
@@ -491,16 +491,16 @@ x enum('','','') default x为枚举类型 default默认为3
 *****4.1
 回顾和概述
 
-约束划分 
-1,功能 非空约束 not null 
-主键约束 primary key 
+约束划分
+1,功能 非空约束 not null
+主键约束 primary key
 唯一约束 unique key
-外键约束 foreign key 
-默认约束 default 
-2，个数 表级约束 foreign key unique key primary key 
-列级约束 not null default 
+外键约束 foreign key
+默认约束 default
+2，个数 表级约束 foreign key unique key primary key
+列级约束 not null default
 更改
-1，对字段的更改： 重命名 删除 增加 数据类型更改 约束添加 删除 更改 
+1，对字段的更改： 重命名 删除 增加 数据类型更改 约束添加 删除 更改
 2，对表的更改 ： 重命名 删除
 
 *****4.2
@@ -681,7 +681,7 @@ insert tdb_goods_cates (cate_name) select good_cate from tdb_goods group by good
 5-6 多表更新
 
 多表更新举例：
-update tdb_goods inner join tdb_goods_cates on goods_cate=cate_name 
+update tdb_goods inner join tdb_goods_cates on goods_cate=cate_name
 set goods_cate=cate_id;
 tdb_goods和tdb_goods_cate是要修改的表，inner join表示内连接，tdb_goods inner join tdb_goods_cates表示将两个表进行内连接，而连接需要一定的条件使虚拟的新表记录数不会比原表最大的低，这里的条件就是goods_cate=cate_name set，条件用on语句引出，tdb_goods inner join tdb_goods_cates on goods_cate=cate_name 这句话的意思就是将两个表中goods_cate=cate_name的数据进行一一对应的连接，然后对这个虚拟的新表进行修改，将goods_cate修改为该记录数对应的cate_id，又因为这个虚拟的新表其实是对原表的引用，本身是并不存在这样一个表的，所以修改后结果就体现在了原表上。
 
@@ -697,7 +697,7 @@ brand_name VARCHAR(40) NOT NULL
 SELECT brand_name FROM tdb_goods GROUP BY brand_name;
 
 //注意两表中都叫brand_name,
-2.起别名法：UPDATE tdb_goods AS g INNER JOIN tdb_goods_brands AS b ON g.brand_name = b.brand_name 
+2.起别名法：UPDATE tdb_goods AS g INNER JOIN tdb_goods_brands AS b ON g.brand_name = b.brand_name
 
 SET g.brand_name = b.brand_id;
 
@@ -706,7 +706,7 @@ SET g.brand_name = b.brand_id;
 ，当然类型也要改
 
 通过ALTER TABLE语句修改数据表结构
-ALTER TABLE tdb_goods 
+ALTER TABLE tdb_goods
 CHANGE goods_cate cate_id SMALLINT UNSIGNED NOT NULL,
 CHANGE brand_name brand_id SMALLINT UNSIGNED NOT NULL;
 @加外键？不一定是物理的外键，逻辑的外键也行（以上就是），当然，物理外键更能保证数据的完整性和一致性
@@ -742,7 +742,7 @@ RIGHT[OUTER]JOIN,右外连接
 
 外连接分为左外连接和右外连接：左外连接显示左表全部记录以及与右表符合连接条件的记录。
 eg：SELECT goods_id,goods_name,cate_name FROM tdb_goods//前两个来自左表，最后一个来自右表
-LEFT JOIN//打印机的goods_id, goods_name 出现（因为左表的全部）打印机cate_name=null(与和右表的符合条件的部分， 因为打印机的商品分类是12，但分类表中并不存在这条记录) 
+LEFT JOIN//打印机的goods_id, goods_name 出现（因为左表的全部）打印机cate_name=null(与和右表的符合条件的部分， 因为打印机的商品分类是12，但分类表中并不存在这条记录)
 tdb_goods_cate ON tdb_goods.cate_id = tdb_goods_cate.cate_id;
 
 右外连接
@@ -752,8 +752,8 @@ RIGHT JOIN// ；路由器，交换机，网卡的 机cate_name有值（因为右
 
 5-11 多表连接
 
-多表连接：SELECT goods_id,goods_name,cate_name,brand_name,goods_price 
-FROM tdb_goods AS g 
+多表连接：SELECT goods_id,goods_name,cate_name,brand_name,goods_price
+FROM tdb_goods AS g
 INNER JOIN tdb_goods_cates AS c ON g.cate_id = c.cate_id
 ->INNER JOIN tdb_brands AS b ON g.brand_id = b.brand_id\G;
 
@@ -781,7 +781,7 @@ mysql> select goods_id,goods_name,cate_name,brand_name,goods_price from tdb_good
 5-13 无限级分类表设计
 
 第一：select s.type_id,s.type_name,p.type_name from tdb_goods_types as s left join tdb_goods_types as p
-on s.parent_id=p.type_id 
+on s.parent_id=p.type_id
 第二：select p.type_id,p.type_name,count(s.type_name) from tdb_goods_types as p left join tdb_goods_types as s
 on s.parent_id=p.type_id group by p.type_name order by p.type_id
 把原表想象成两个表s（子表),p（父表）然后两个表进行连接：
@@ -889,7 +889,7 @@ CURDATE() /* current当前日期 只有日期*/
 CURTIME() /*当前时间 值有时间*/
 
 DATE_ADD() /*时间增减或减少*/
-SELECT DATE_ADD('2014-3-12',INTERVAL 365 DAY); ==>2015-3-12 /*在原有给定的时间上增加365天 
+SELECT DATE_ADD('2014-3-12',INTERVAL 365 DAY); ==>2015-3-12 /*在原有给定的时间上增加365天
 INTERVAL增加可以增加负值 单位 year ,month,week,day
 SELECT DATE_ADD('2014-3-12',INTERVAL 1 YEAR);//*/
 
@@ -1041,14 +1041,7 @@ DESCRIBE作为SHOW COLUMNS FROM的一种快捷方式
 SHOW STATUS，用于显示广泛的服务器状态信息；
 
 SHOW CREATE DATABASE和SHOW CREATE TABLE，分别用来显示创建特定数据库或表的MySQL语句；
-? 
+?
 SHOW GRANTS，用来显示授予用户（所有用户或特定用户）的安全权限；
 
 SHOW ERRORS和SHOW WARNINGS， 用来显示服务器错误或警告消息。
-
-
-
-
-
-
-

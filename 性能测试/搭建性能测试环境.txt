@@ -1,3 +1,18 @@
+公司的centos地址：192.168.200.76
+jdk安装目录：/opt/soft/jdk1.8.0_131/
+tomcat安装目录：/opt/soft/tomcat/
+其他电脑访问tomcat下网页：192.168.200.76:8080
+
+
+/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/
+
+
+export JAVA_HOME=/opt/soft/jdk1.8.0_131
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+
+
 vmware里安装centos,用的是x86_64的包,这个包大小为7GB,在家里的windows电脑里已经有了.
 vmware中安装好centos之后,需要改成桥接模式,这个有相应的书签,要实时能否win--centos,centos--mac,centos--www.baidu.com之间能否ping通.
 设置成桥接模式后 执行dhclient 就可以自动获取ip地址命令
@@ -7,10 +22,15 @@ ssh登录,需要改相应的安全限制文件啥的.
 centos中安装tomcat用源码包的形式安装,安装之后需要开放8080,另外tomcat需要jdk,所以首先得卸载掉centos预装的openjdk,然后用源码的形式安装jdk,jdk安装在usr目录下的java文件夹中.
 centos中安装数据库的时候用http://blog.csdn.net/uq_jin/article/details/51741175,但是里面有个坑就是不用cp share里的my.cnf,而是直接在原来/etc/my.cnf文件中加上utf-8就好了(需要设置[client]).
 
+root@localhost: gaw2eqLfHW*g
+
+mysqladmin -uroot -pgaw2eqLfHW*g password 8800
+
 
 mac和centos之间的文件传输用http://www.sdifenzhou.com/securecrt802.html, 命令传输比较费劲.
 
 
+FY7N2-6RGD2-081XZ-UYWQC-ZPKCA
 
 docker run -h "oracle" --name "oracle" -d -p 49163:22 -p 49164:1521 wnameless/oracle-xe-11g
 docker run -h "oracle" --name "oracle" -d -p 49163:22 -p 49164:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
