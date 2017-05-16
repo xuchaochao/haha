@@ -3,6 +3,8 @@ jdk安装目录：/opt/soft/jdk1.8.0_131/
 tomcat安装目录：/opt/soft/tomcat/
 其他电脑访问tomcat下网页：192.168.200.76:8080
 
+公司的centos里的oracle数据库设置gloadbal databse name:xccOracle
+
 
 /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/
 
