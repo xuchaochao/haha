@@ -1,4 +1,19 @@
 公司的centos地址：192.168.200.76
+公司的ubuntu地址：192.168.200.148
+
+
+docker run --name oracleMac -d -p 49160..........
+
+
+
+CREATE TABLE TABLE1
+(
+  COLUMN1 VARCHAR2(20)
+);
+
+
+
+
 jdk安装目录：/opt/soft/jdk1.8.0_131/
 tomcat安装目录：/opt/soft/tomcat/
 其他电脑访问tomcat下网页：192.168.200.76:8080
