@@ -1,0 +1,22 @@
+docker仓库中查找:sudo docker search oracle
+安装:sudo docker pull wnameless/oracle-xe-11g
+
+docker run --name oracleMac -d -p 49160:22 -p 49161:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
+
+连接设置:
+hostname: localhost
+port: 49161
+sid: xe
+username: system
+password: oracle
+
+密码:Password for SYS & SYSTEM:
+oracle
+
+SSH登录:Login by SSH:
+ssh root@localhost(或者远程地址) -p 49160 (密码为admin)
+su - oracle
+sqlplus '/as sysdba'(直接复制过去,奇怪手打的老是不对)
+
+查看当前的所有数据库: select * from v$database;
+查看数据的名字:select name from v$database;

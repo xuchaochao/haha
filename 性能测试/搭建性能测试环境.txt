@@ -1,17 +1,14 @@
 公司的centos地址：192.168.200.76
 公司的ubuntu地址：192.168.200.148
 
+家里的centos地址:192.168.1.102
 
 docker run --name oracleMac -d -p 49160..........
-
-
-
+docker run --name oracleMac -d -p 49160:22 -p 49161:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
 CREATE TABLE TABLE1
 (
   COLUMN1 VARCHAR2(20)
 );
-
-
 
 
 jdk安装目录：/opt/soft/jdk1.8.0_131/
@@ -19,7 +16,6 @@ tomcat安装目录：/opt/soft/tomcat/
 其他电脑访问tomcat下网页：192.168.200.76:8080
 
 公司的centos里的oracle数据库设置gloadbal databse name:xccOracle
-
 
 /Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/
 
